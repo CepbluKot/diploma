@@ -9,6 +9,8 @@ from rplidar import RPLidar
 import paho.mqtt.client as mqtt
 import time, random
 import json
+import pickle
+
 
 PORT_NAME = '/dev/ttyUSB0'
 
@@ -36,7 +38,7 @@ def run():
     
     try:
         for scan in lidar.iter_scans():
-            client.publish(payload=json.dumps(scan), topic="/")
+            client.publish(payload=pickle.dumps(scan), topic="data/lidar")
             
         
     except KeyboardInterrupt:

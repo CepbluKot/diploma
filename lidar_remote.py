@@ -7,22 +7,23 @@ import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib.animation as animation
 import threading
+import pickle
 
 
 last_msg = []
 
 def on_connect(client: mqtt.Client, userdata, flags, rc):
     print("Connected with result code " + str(rc))
-    client.subscribe(topic="#")
+    client.subscribe(topic="data/lidar")
 
 
 def on_message(client, userdata, msg: mqtt.MQTTMessage):
     global last_msg
 
-    if msg.topic == '/':
+    if msg.topic == 'data/lidar':
         if msg.payload:
             print('gotcha')
-            last_msg = json.loads(msg.payload)
+            last_msg = pickle.loads(msg.payload)
 
 client = mqtt.Client()
 client.on_connect = on_connect
@@ -58,11 +59,8 @@ def run():
     
     plt.show()
 
-if __name__ == '__main__':
+def launch():
     t1 = threading.Thread(target=client.loop_forever)
     t1.start()
     run()
     t1.join()
-    # t2 = threading.Thread(target=run)
-    # t2.start()
-    # t2.join()
