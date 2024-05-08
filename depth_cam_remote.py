@@ -14,27 +14,27 @@ import pickle
 
 
 
-class LastMsgContainer:
-    def __init__(self) -> None:
-        self.lock = threading.Lock()
-        self.value = []
+# class LastMsgContainer:
+#     def __init__(self) -> None:
+#         self.lock = threading.Lock()
+#         self.value = []
 
-    def set(self, new_val):
-        self.lock.acquire()
-        self.value = new_val
-        self.lock.release()
-
-
-    def get(self):
-        self.lock.acquire()
-        val_to_return = self.value
-        self.lock.release()
-
-        return val_to_return
+#     def set(self, new_val):
+#         self.lock.acquire()
+#         self.value = new_val
+#         self.lock.release()
 
 
-depth_msg = LastMsgContainer()
-rgb_msg = LastMsgContainer()
+#     def get(self):
+#         self.lock.acquire()
+#         val_to_return = self.value
+#         self.lock.release()
+
+#         return val_to_return
+
+
+depth_msg = []
+rgb_msg = []
 
 def on_connect_depth(client: mqtt.Client, userdata, flags, rc):
     print("Connected with result code " + str(rc))
@@ -48,13 +48,11 @@ def on_message(client, userdata, msg: mqtt.MQTTMessage):
 
     if msg.topic == 'data/depth_cam':
         if msg.payload:
-            print('gotcha')
-            depth_msg.set( pickle.loads(msg.payload))
+            depth_msg =  pickle.loads(msg.payload)
 
     if msg.topic == 'data/rgb_cam':
         if msg.payload:
-            print('gotcha')
-            rgb_msg.set( pickle.loads(msg.payload))
+            rgb_msg =  pickle.loads(msg.payload)
 
 
 
@@ -65,15 +63,22 @@ client.connect("localhost", 1883, 60)
 
 
 def run():
+    depth=np.zeros((480,640))
+    rgb = np.zeros((480,640,3))
     while 1:
-        if len(depth_msg.get()):
-            depth = frame_convert2.pretty_depth_cv(depth_msg.get())
-            rgb=frame_convert2.video_cv(rgb_msg.get())
+        if len(depth_msg):
+            try:
+                depth = frame_convert2.pretty_depth_cv(depth_msg)
+                rgb = frame_convert2.video_cv(rgb_msg)
+
+            except:
+                pass
+            
             cv2.imshow('Depth', depth)
             cv2.imshow('rgb', rgb)
 
-        if cv2.waitKey(10) == 27:
-            break
+        cv2.waitKey(70)
+
 
 
 def launch():
@@ -81,3 +86,6 @@ def launch():
     t1.start()
     run()
     t1.join()
+
+if __name__=='__main__':
+    launch()

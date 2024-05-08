@@ -6,9 +6,6 @@ import numpy as np
 import pickle
 
 
-PORT_NAME = '/dev/ttyUSB0'
-
-
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code " + str(rc))
 
@@ -37,6 +34,7 @@ def run():
             if depth_mat.size:
                 client.publish(payload=pickle.dumps(depth_mat), topic="data/depth_cam")
                 client.publish(payload=pickle.dumps(video), topic="data/rgb_cam")
+
 
 if __name__=='__main__':
     run()

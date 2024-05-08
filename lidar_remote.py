@@ -22,7 +22,7 @@ def on_message(client, userdata, msg: mqtt.MQTTMessage):
 
     if msg.topic == 'data/lidar':
         if msg.payload:
-            print('gotcha')
+            # print('gotcha')
             last_msg = pickle.loads(msg.payload)
 
 client = mqtt.Client()
