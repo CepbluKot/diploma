@@ -72,3 +72,6 @@ def launch():
     t1.start()
     run()
     t1.join()
+
+if __name__=='__main__':
+    launch()
