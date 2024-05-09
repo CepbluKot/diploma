@@ -10,17 +10,25 @@ import threading
 import pickle
 
 
+config = json.load(open("config.json"))
+ADDRESS = config["robot_address"]
+MQTT_PORT = config["MQTT_port"]
+
+MQTT_LIDAR_TOPIC_PICKLE = config["lidar_topic_pickle_format"]
+# MQTT_LIDAR_TOPIC_STR = config["lidar_topic_str_format"]
+
+
 last_msg = []
 
 def on_connect(client: mqtt.Client, userdata, flags, rc):
     print("Connected with result code " + str(rc))
-    client.subscribe(topic="data/lidar")
+    client.subscribe(topic=MQTT_LIDAR_TOPIC_PICKLE)
 
 
 def on_message(client, userdata, msg: mqtt.MQTTMessage):
     global last_msg
 
-    if msg.topic == 'data/lidar':
+    if msg.topic == MQTT_LIDAR_TOPIC_PICKLE:
         if msg.payload:
             # print('gotcha')
             last_msg = pickle.loads(msg.payload)
@@ -28,7 +36,7 @@ def on_message(client, userdata, msg: mqtt.MQTTMessage):
 client = mqtt.Client()
 client.on_connect = on_connect
 client.on_message = on_message
-client.connect("localhost", 1883, 60)
+client.connect(ADDRESS, MQTT_PORT, 60)
 
 
 

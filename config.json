@@ -1,0 +1,22 @@
+{
+    "lidar_serial_port": "/dev/ttyUSB0",
+    
+    "robot_address": "localhost",
+    "http_server_port": "",
+    "MQTT_port": 1883,
+
+    "lidar_data_router": "/lidar",
+    "depth_cam_data_router": "/depth_cam",
+    
+    "lidar_topic_pickle_format": "data/lidar_pickle",
+    "lidar_topic_str_format": "data/lidar_str",
+
+    "depth_cam_topic_pickle_format": "data/depth_cam_pickle",
+    "depth_cam_topic_str_format": "data/depth_cam_str",
+    "rgb_cam_topic_pickle_format": "data/rgb_cam_pickle",
+    "rgb_cam_topic_str_format": "data/rgb_cam_str",
+
+    "encoder_topic_str_format": "data/encoder_str",
+
+    "gnss_topic_str_format": "data/gnss_str"
+}
