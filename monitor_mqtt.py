@@ -47,16 +47,6 @@ class Networking:
                 print('res',res)
             except:
                 pass
-    
-
-    def on_socket_dead(self):
-        print('socket dead')
-
-    def on_http_dead(self):
-        print('http dead')
-    
-    def on_lora_dead(self):
-        print('lora dead')
 
 
 n = Networking()
