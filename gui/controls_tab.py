@@ -3,7 +3,6 @@ from tkinter import *
 
 
 def controls_tab(frame):
-
     # --- left engine controls ---
 
     scale_left_eng = Scale(frame, from_=0, to=100,  orient=HORIZONTAL, length=150)    
@@ -121,3 +120,13 @@ def controls_tab(frame):
     
     right_eng_value_field = Label(master=frame, text=str(None), background='white')
     right_eng_value_field.grid(row=3, column=8+1, padx=10, pady=5)
+
+    # --- connection type indicator ---
+
+    conn_type_label = Label(master=frame, text='connection status', background='white')
+    conn_type_label.grid(row=6, column=8, padx=(100, 10))
+
+    conn_type_indicator = Label(master=frame, text=str(None), background='white')
+    conn_type_indicator.grid(row=6, column=9, )
+
+    return conn_type_indicator

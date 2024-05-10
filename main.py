@@ -1,6 +1,4 @@
 from gui.output import init_gui
-# from gui.calls.set_params_calls import *
-# from gui.calls.move_to_point_calls import *
 import multiprocessing
 from interface_windows.lidar_window import launch as lidar_launch
 from interface_windows.depth_cam_window import launch as depth_cam_launch

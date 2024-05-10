@@ -11,10 +11,7 @@ def search_for_ports():
     return ports
 
 def do_staff():
-    print('available ports')
-    for index, port in enumerate(search_for_ports()):
-        print('[{}] {}'.format(index, port.description))
-
+    
     port = search_for_ports()[0].device
     baudrate = 9600
     serial_conn = serial.Serial(port, baudrate)
@@ -23,7 +20,7 @@ def do_staff():
     while serial_conn.is_open:
         try:
             encoder_data = int(serial_conn.readline().decode("utf-8"))
-            print(encoder_data)
+
         except:
             break
 

@@ -22,8 +22,16 @@ def init_gui():
     tab_control.pack(expand=1, fill='both')  
 
     
-    controls_tab(tab1)
+    rofl=controls_tab(tab1)
     connection_config_tab(tab2)
+    def pp():
+        while 1 :
+            import time
+            time.sleep(1)
+            rofl.config(text=str(time.time()))
 
-    
+    import threading
+    t1 = threading.Thread(target=pp)
+    t1.start()
     window.mainloop()
+    t1.join()

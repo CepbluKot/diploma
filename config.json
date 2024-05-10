@@ -2,6 +2,7 @@
     "google_api_key":"",
 
     "lidar_serial_port": "/dev/ttyUSB0",
+    "gnss_serial_port": "/dev/ttyUSB1",
     
     "robot_address": "localhost",
     "http_server_port": "",
