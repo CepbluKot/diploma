@@ -64,15 +64,8 @@ def connection_config_tab(frame):
     conn_type_indicator = Label(master=frame, text=str(None), background='white')
     conn_type_indicator.grid(row=2, column=5+1)
 
-    connection_type_server_radiobtn = Radiobutton(master=frame, text="Server", variable=connection_type_param, anchor=W, value="Server", command=change_conn_type_btn)
+    connection_type_server_radiobtn = Radiobutton(master=frame, text="Internet", variable=connection_type_param, anchor=W, value="Internet", command=change_conn_type_btn)
     connection_type_server_radiobtn.grid(row=3, column=3+1+1, padx=(100, 10), sticky=W)
 
     conn_type_indicator = Label(master=frame, text=str(None), background='white')
     conn_type_indicator.grid(row=3, column=5+1)
-
-    connection_type_mqtt_radiobtn = Radiobutton(master=frame, text="MQTT", variable=connection_type_param, anchor=W, value="MQTT", command=change_conn_type_btn)
-    connection_type_mqtt_radiobtn.grid(row=4, column=3+1+1, padx=(100, 10), sticky=W)
-
-
-    conn_type_indicator = Label(master=frame, text=str(None), background='white')
-    conn_type_indicator.grid(row=4, column=5+1)

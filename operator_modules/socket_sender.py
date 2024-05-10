@@ -4,9 +4,17 @@ import socket, json
 
 
 class SocketSender:
-    def __init__(self, address, port) -> None:
-        self.address = address
-        self.port = port
+    def __init__(self) -> None:
+        def do_nothing():
+            pass
+
+        self.config = json.load(open("config.json"))
+
+        self.address = self.config['robot_address']
+        self.port = self.config['socket_port']
+        
+        self.on_socket_disconnect_action = do_nothing
+        self.on_socket_reconnect_action = do_nothing
 
         self.is_socket_connected = False
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -18,9 +26,9 @@ class SocketSender:
         except Exception:
             self.on_socket_dead()
 
-    def send(self, msg: str):
+    def send(self, data: str):
         try:
-            self.s.sendall(msg.encode())
+            self.s.sendall(data.encode())
         except Exception:
             self.on_socket_dead()
 

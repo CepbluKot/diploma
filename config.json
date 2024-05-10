@@ -1,12 +1,15 @@
 {
-    "google_api_key":"",
-
     "lidar_serial_port": "/dev/ttyUSB0",
     "gnss_serial_port": "/dev/ttyUSB1",
     
     "robot_address": "localhost",
-    "http_server_port": "",
+    "http_server_port": 8888,
     "MQTT_port": 1883,
+    "socket_port": 8005,
+
+    "LoRa_operator_transceiver_port":"",
+    "LoRa_robot_transceiver_port":"",
+
 
     "lidar_data_router": "/lidar",
     "depth_cam_data_router": "/depth_cam",
@@ -16,6 +19,7 @@
 
     "depth_cam_topic_pickle_format": "data/depth_cam_pickle",
     "depth_cam_topic_str_format": "data/depth_cam_str",
+    
     "rgb_cam_topic_pickle_format": "data/rgb_cam_pickle",
     "rgb_cam_topic_str_format": "data/rgb_cam_str",
 
