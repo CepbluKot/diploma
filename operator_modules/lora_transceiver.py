@@ -3,12 +3,13 @@ import paho.mqtt.client as mqtt
 import socket, json, serial
 
 
-class Networking:
-    def __init__(self, port) -> None:
+class LoRaTransceiver:
+    def __init__(self, port: int, on_recv) -> None:
         self.is_lora_connected = False
         baudrate = 9600
         self.serial_conn = serial.Serial(port, baudrate)
-
+        self.on_recv = on_recv
+        
         read_thr = threading.Thread(target=self.recv_thread, args=(10, ))
         read_thr.start()
         read_thr.join()
@@ -18,11 +19,8 @@ class Networking:
 
     def on_connect(self,):
             self.is_lora_connected = True
-            print('connected 4 real')
+            print('lora connected')
 
-    def on_recv(self,data):
-        self.is_lora_connected = True
-        print('data',data,time.time())
 
     def recv_thread(self, conn_timeout: int):
         start_wait_time = time.time()
@@ -42,16 +40,20 @@ class Networking:
     def on_lora_dead(self):
         print('lora dead')
         self.is_lora_connected = False
+        
+        def reconnect_procedure():
+            while not self.is_lora_connected:
+                try:
+                    time.sleep(5)
+                    if self.serial_conn.in_waiting:
+                        self.on_connect()
+                
+                except Exception:
+                    print('conn err')
 
-        while not self.is_lora_connected:
-            try:
-                time.sleep(5)
-                if self.serial_conn.in_waiting:
-                    self.on_connect()
-            
-            except Exception:
-                print('conn err')
+        reconnect_thr = threading.Thread(target=reconnect_procedure)
+        reconnect_thr.start()
+        reconnect_thr.join()
 
-
-n = Networking('/dev/ttyUSB0')
+n = LoRaTransceiver('/dev/ttyUSB0')
 
