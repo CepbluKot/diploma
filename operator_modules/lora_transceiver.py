@@ -20,11 +20,12 @@ class LoRaTransceiver:
         self.on_lora_disconnect_action = do_nothing
         self.on_lora_reconnect_action = do_nothing
 
-        self.is_lora_connected = False
-        baudrate = 9600
-        self.serial_conn = serial.Serial(self.port, baudrate)
+        self.is_lora_connected = True
+        self.baudrate = 9600
+        self.serial_conn = serial.Serial(self.port, self.baudrate)
 
-        read_thr = threading.Thread(target=self.recv_thread, args=(10, ))
+        read_thr = threading.Thread(target=self.recv_thread, args=(5, ))
+        # read_thr.daemon = True
         read_thr.start()
         read_thr.join()
 
@@ -32,11 +33,13 @@ class LoRaTransceiver:
         self.serial_conn.write(data.encode()+b'\r')
 
     def on_connect(self,):
+            if not self.is_lora_connected:
+                print('lora connected')
             self.is_lora_connected = True
-            print('lora connected')
 
     def on_recv(self, data:str):
-        parsed_data = json.loads(data)
+        parsed_data = data
+        # parsed_data = json.loads(data)
         self.on_encoder_data(parsed_data)
         self.on_gnss_data(parsed_data)
 
@@ -47,22 +50,29 @@ class LoRaTransceiver:
                 read_data = self.serial_conn.read_until(b'\r\n')
                 read_data = read_data[:-2].decode()
                 self.on_recv(read_data)
-                
+                self.on_connect()
                 start_wait_time = time.time()
             
             else:
-                if time.time() - start_wait_time >= conn_timeout:
+                if self.is_lora_connected and time.time() - start_wait_time >= conn_timeout:
+                    
                     self.on_lora_disconnected()
                     start_wait_time = time.time()
 
     def on_lora_disconnected(self):
-        print('lora disconnected')
+        if self.is_lora_connected:
+            print('lora disconnected')
+        
         self.is_lora_connected = False
         self.on_lora_disconnect_action()
         def reconnect_procedure():
             while not self.is_lora_connected:
                 try:
                     time.sleep(5)
+                    while not self.serial_conn.is_open:
+                        self.serial_conn.close()
+                        self.serial_conn = serial.Serial(self.port, self.baudrate)
+
                     if self.serial_conn.in_waiting:
                         self.on_connect()
                         self.on_lora_reconnect_action()
@@ -71,8 +81,11 @@ class LoRaTransceiver:
                     pass
 
         reconnect_thr = threading.Thread(target=reconnect_procedure)
+        reconnect_thr.daemon = True
         reconnect_thr.start()
-        reconnect_thr.join()
-
-n = LoRaTransceiver('/dev/ttyUSB0')
+        
+if __name__=='__main__':
+    def nothin(rofl=None):
+        pass
+    n = LoRaTransceiver(nothin,nothin)
 

@@ -35,7 +35,7 @@ class GlobalTransceiver:
         self.sender = socket_sender
 
     def set_transceiver_config(self, internet_available: bool):
-        def do_nothing():
+        def do_nothing(smth=None):
             pass
 
         if internet_available:
@@ -80,3 +80,12 @@ class GlobalTransceiver:
     def socket_reconnect_action(self,):
         self.set_transceiver_config(internet_available=True)
         self.sender = self.socket_sender
+
+
+def nothin(non=None):
+    pass
+
+ss = SocketSender()
+lt = LoRaTransceiver(nothin,nothin)
+mr = MQTTReceiver(nothin,nothin,nothin,nothin,nothin)
+trans = GlobalTransceiver(ss, lt, mr, nothin, nothin)

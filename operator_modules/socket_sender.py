@@ -24,20 +24,26 @@ class SocketSender:
             self.on_connect()
         
         except Exception:
-            self.on_socket_dead()
+            self.on_socket_disconnected()
 
     def send(self, data: str):
-        try:
-            self.s.sendall(data.encode())
-        except Exception:
-            self.on_socket_dead()
+        if self.is_socket_connected:
+            def send_action():
+                try:
+                    self.s.sendall(data.encode())
+                except Exception:
+                    self.on_socket_disconnected()
+            
+            send_thr = threading.Thread(target=send_action)
+            send_thr.daemon = True
+            send_thr.start()
 
     def on_connect(self,):
             self.is_socket_connected = True
             print('socket connected')
 
-    def on_socket_dead(self):
-        print('socket dead')
+    def on_socket_disconnected(self):
+        print('socket disconnected')
         self.is_socket_connected = False
 
         def reconnect_procedure():
@@ -52,11 +58,12 @@ class SocketSender:
                     pass
         
         reconnect_thr = threading.Thread(target=reconnect_procedure)
+        reconnect_thr.daemon = True
         reconnect_thr.start()
-        reconnect_thr.join()
 
-
-n = SocketSender('localhost',8005)
-while 1:
-    time.sleep(2)
-    n.send('wewreg')
+if __name__=='__main__':
+    n = SocketSender()
+    while 1:
+        time.sleep(2)
+        n.send('wewreg')
+        print('riidn high')

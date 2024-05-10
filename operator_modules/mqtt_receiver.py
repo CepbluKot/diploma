@@ -40,6 +40,7 @@ class MQTTReceiver:
             self.on_disconnect(self.mqtt_client)
     
         self.mqtt_thread = threading.Thread(target=self.mqtt_client.loop_forever)
+        # self.mqtt_thread.daemon = True
         self.mqtt_thread.start()
         self.mqtt_thread.join()
         
@@ -101,8 +102,8 @@ class MQTTReceiver:
                     pass
         
         reconnect_thr = threading.Thread(target=reconnect_procedure)
+        reconnect_thr.daemon = True
         reconnect_thr.start()
-        reconnect_thr.join()
 
 
 # def do_nothing():
