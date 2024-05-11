@@ -36,7 +36,7 @@ def run():
     try:
         for scan in lidar.iter_scans():
             client.publish(payload=pickle.dumps(scan), topic=MQTT_TOPIC_PICKLE)
-    except:
+    except Exception:
         run()
 
 if __name__ == '__main__':

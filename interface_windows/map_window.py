@@ -53,7 +53,7 @@ def launch():
 
     point_upd_thr = threading.Thread(target=client.loop_forever)
     point_upd_thr.start()  
-    root_tk.mainloop()
+    # root_tk.mainloop()
     point_upd_thr.join()
 
 
