@@ -1,7 +1,7 @@
 from socket_sender import SocketSender
 import paho.mqtt.client as mqtt
 import threading
-import json
+import json, time
 from lora_transceiver import LoRaTransceiver
 from mqtt_receiver import MQTTReceiver
 from enum import Enum
@@ -166,37 +166,12 @@ class GlobalTransceiver:
         else:
             self.connection_mode = ConnectionMode.manual
             if method:
-                if method == ManualConnectionMethod.LoRa:
-                    self.manual_connection_method = ManualConnectionMethod.LoRa
-                    
-                    self.__change_sender_internet_state(internet_available=False)
-                    self.__change_receiver_internet_state(internet_available=False)
-                    
-                    self.__change_lora_state(lora_available=True)
-                    
-                    self.__set_sender_config()
-                    self.__set_receiver_config()
-
-                elif method == ManualConnectionMethod.internet:
-                    self.manual_connection_method = ManualConnectionMethod.internet
-
-                    self.__change_sender_internet_state(internet_available=True)
-                    self.__change_receiver_internet_state(internet_available=True)
-                                        
-                    self.__change_lora_state(lora_available=False)
-
-                    self.__set_sender_config()
-                    self.__set_receiver_config()
-
+                self.manual_connection_method = method
             else:
                 self.manual_connection_method = ManualConnectionMethod.LoRa
 
-                self.__change_sender_internet_state(internet_available=False)
-                self.__change_receiver_internet_state(internet_available=False)
-                self.__change_lora_state(lora_available=True)
-
-                self.__set_sender_config()
-                self.__set_receiver_config()
+            self.__set_sender_config()
+            self.__set_receiver_config()
 
     def send(self, data: str):
         print(time.time(),'sent with ', self.sender)
@@ -274,10 +249,35 @@ def nothin(non=None, ):
     pass
 
 trans = GlobalTransceiver( nothin,nothin, nothin, nothin,  nothin)
-trans.set_connection_mode(False, ManualConnectionMethod.internet)
-while 1:
-    import time
-    time.sleep(2)
-    # print('wachawont')
-    
-    trans.send('amogus')
+
+
+def te1():
+    while 1:
+        import time
+        time.sleep(1)
+        # print('wachawont')
+
+        trans.send('amogus')
+
+def te2():
+    while 1:
+        import time
+        print('--- changemod to intet--')
+        
+        trans.set_connection_mode(False, ManualConnectionMethod.internet)
+        time.sleep(10)
+        print('--- changemod to LORA--')
+        trans.set_connection_mode(False, ManualConnectionMethod.LoRa)
+        time.sleep(10)
+        print('--- changemod to auto--')
+        
+        trans.set_connection_mode(True)
+        time.sleep(10)
+
+
+tre1 = threading.Thread(target=te1)
+tre2 = threading.Thread(target=te2)
+tre1.start()
+tre2.start()
+tre1.join()
+tre2.join()
