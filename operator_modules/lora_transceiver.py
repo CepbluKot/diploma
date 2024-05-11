@@ -25,7 +25,7 @@ class LoRaTransceiver:
         self.baudrate = 9600
         self.serial_conn = serial.Serial(self.port, self.baudrate)
 
-        read_thr = threading.Thread(target=self.recv_thread, args=(10, ))
+        read_thr = threading.Thread(target=self.recv_thread, args=(5, ))
         read_thr.daemon = True
         read_thr.start()
         # read_thr.join()

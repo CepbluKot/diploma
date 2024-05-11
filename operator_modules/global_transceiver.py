@@ -116,17 +116,41 @@ class GlobalTransceiver:
     def __set_sender_config(self):
         if self.socket_sender and self.lora_transceiver:
             with self.change_sender_config_lock:
-                if self.sender_internet_available:
-                    self.sender = self.socket_sender
-                else:
-                    if self.lora_available:
-                        self.sender = self.lora_transceiver
+                if self.connection_mode == ConnectionMode.auto:
+                    if self.sender_internet_available:
+                        self.sender = self.socket_sender
                     else:
-                        class NoSender:
-                            def send(self, data=None):
-                                pass
-                        
-                        self.sender = NoSender()
+                        if self.lora_available:
+                            self.sender = self.lora_transceiver
+                        else:
+                            class NoSender:
+                                def send(self, data=None):
+                                    pass
+                            
+                            self.sender = NoSender()
+
+                else:
+                    if self.manual_connection_method == ManualConnectionMethod.internet:
+                        if self.sender_internet_available:
+                            self.sender = self.socket_sender
+                        else:
+                            class NoSender:
+                                def send(self, data=None):
+                                    pass
+                            
+                            self.sender = NoSender()
+
+
+                    elif self.manual_connection_method == ManualConnectionMethod.LoRa:
+                        if self.lora_available:
+                            self.sender = self.lora_transceiver
+                        else:
+                            class NoSender:
+                                def send(self, data=None):
+                                    pass
+                            
+                            self.sender = NoSender()
+
 
                 print('set sender: ', self.sender)
 
@@ -175,7 +199,7 @@ class GlobalTransceiver:
                 self.__set_receiver_config()
 
     def send(self, data: str):
-        print('sent with ', self.sender)
+        print(time.time(),'sent with ', self.sender)
         self.sender.send(data)
 
     def mqtt_receiver_disconnect_action(self,):
@@ -250,9 +274,10 @@ def nothin(non=None, ):
     pass
 
 trans = GlobalTransceiver( nothin,nothin, nothin, nothin,  nothin)
-# trans.set_connection_mode(True)
+trans.set_connection_mode(False, ManualConnectionMethod.internet)
 while 1:
     import time
-    time.sleep(5)
+    time.sleep(2)
     # print('wachawont')
+    
     trans.send('amogus')

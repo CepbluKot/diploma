@@ -51,12 +51,11 @@ class SocketSender:
             while not self.is_socket_connected:
                 try:
                     time.sleep(5)
-                    # print('sock recon in porgress')
+                    print('sock recon in porgress')
                     self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     self.s.connect((self.address, self.port))
                     self.on_connect()
                     self.on_socket_reconnect_action()
-
                 except Exception:
                     pass
         
