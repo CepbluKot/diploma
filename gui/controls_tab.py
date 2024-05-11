@@ -129,10 +129,4 @@ def controls_tab(frame):
     conn_status_indicator = Label(master=frame, text=str(None), background='white')
     conn_status_indicator.grid(row=6, column=9, )
 
-    conn_type_label = Label(master=frame, text='connection type', background='white')
-    conn_type_label.grid(row=7, column=8, padx=(100, 10), pady=15)
-
-    conn_type_indicator = Label(master=frame, text=str(None), background='white')
-    conn_type_indicator.grid(row=7, column=9)
-
     return conn_status_indicator

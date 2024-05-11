@@ -10,7 +10,8 @@ class MQTTReceiver:
                  encoder_topic_callback,
                  gnss_topic_callback,
                  on_mqtt_disconnect_action,
-                 on_mqtt_reconnect_action) -> None:
+                 on_mqtt_reconnect_action
+                 ) -> None:
 
 
         self.on_lidar_msg = lidar_topic_callback
@@ -39,7 +40,8 @@ class MQTTReceiver:
             self.mqtt_client.connect(self.address, self.port, 60)
         except ConnectionRefusedError:
             self.on_disconnect(self.mqtt_client)
-    
+
+
         self.mqtt_thread = threading.Thread(target=self.mqtt_client.loop_forever)
         self.mqtt_thread.daemon  = True
         self.mqtt_thread.start()
