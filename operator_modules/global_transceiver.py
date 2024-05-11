@@ -73,7 +73,7 @@ class GlobalTransceiver:
         
         self.sender = self.socket_sender
         self.__set_sender_config()
-            
+        self.__set_receiver_config()
 
     def __change_sender_internet_state(self, internet_available):
         with self.change_sender_internet_state_lock:
@@ -158,11 +158,6 @@ class GlobalTransceiver:
         if auto:
             self.connection_mode = ConnectionMode.auto
 
-            # self.__change_internet_state(internet_available=True)
-            # self.__change_lora_state(lora_available=True)
-
-            self.__set_receiver_config()
-            self.__set_sender_config()
         else:
             self.connection_mode = ConnectionMode.manual
             if method:
@@ -170,8 +165,8 @@ class GlobalTransceiver:
             else:
                 self.manual_connection_method = ManualConnectionMethod.LoRa
 
-            self.__set_sender_config()
-            self.__set_receiver_config()
+        self.__set_sender_config()
+        self.__set_receiver_config()
 
     def send(self, data: str):
         print(time.time(),'sent with ', self.sender)
@@ -180,8 +175,8 @@ class GlobalTransceiver:
     def mqtt_receiver_disconnect_action(self,):
         self.__change_receiver_internet_state(internet_available=False)
         
-        if self.connection_mode == ConnectionMode.auto:
-            self.__set_receiver_config()
+        # if self.connection_mode == ConnectionMode.auto:
+        self.__set_receiver_config()
         
             #     self.set_receiver_config(internet_available=False)
             #     self.sender = self.lora_transceiver
@@ -193,9 +188,9 @@ class GlobalTransceiver:
 
     def mqtt_receiver_reconnect_action(self,):
         self.__change_receiver_internet_state(internet_available=True)
-        if self.connection_mode == ConnectionMode.auto:
+        # if self.connection_mode == ConnectionMode.auto:
             
-            self.__set_receiver_config()
+        self.__set_receiver_config()
          
         #         self.set_receiver_config(internet_available=False)
         #         self.sender = self.lora_transceiver
@@ -206,44 +201,44 @@ class GlobalTransceiver:
 
     def lora_transceiver_disconnect_action(self,):
         self.__change_lora_state(lora_available=False)
-        if self.connection_mode == ConnectionMode.auto:
-            if not self.sender_internet_available:
+        # if self.connection_mode == ConnectionMode.auto:
+            # if not self.sender_internet_available:
                 
-                self.__set_sender_config()
+        self.__set_sender_config()
 
-        else:
-            if self.manual_connection_method == ManualConnectionMethod.LoRa:
-                self.__set_sender_config()
+        # else:
+        #     if self.manual_connection_method == ManualConnectionMethod.LoRa:
+        #         self.__set_sender_config()
 
     def lora_transceiver_reconnect_action(self,):
         self.__change_lora_state(lora_available=True)
         print('lora reconn act')
-        if self.connection_mode == ConnectionMode.auto:
-            if not self.sender_internet_available:
-                self.__set_sender_config()
-        else:
-            if self.manual_connection_method == ManualConnectionMethod.LoRa:
-                self.__set_sender_config()
+        # if self.connection_mode == ConnectionMode.auto:
+        #     if not self.sender_internet_available:
+        self.__set_sender_config()
+        # else:
+        #     if self.manual_connection_method == ManualConnectionMethod.LoRa:
+        #         self.__set_sender_config()
 
     def socket_sender_disconnect_action(self,):
         self.__change_sender_internet_state(internet_available=False)
         
-        if self.connection_mode == ConnectionMode.auto:
-            self.__set_sender_config()
+        # if self.connection_mode == ConnectionMode.auto:
+        self.__set_sender_config()
         
-        else:
-            if self.manual_connection_method == ManualConnectionMethod.internet:
-                self.__set_sender_config()
+        # else:
+        #     if self.manual_connection_method == ManualConnectionMethod.internet:
+        #         self.__set_sender_config()
 
 
     def socket_sender_reconnect_action(self,):
         self.__change_sender_internet_state(internet_available=True)
-        if self.connection_mode == ConnectionMode.auto:
-            self.__set_sender_config()
+        # if self.connection_mode == ConnectionMode.auto:
+        self.__set_sender_config()
         
-        else:
-            if self.manual_connection_method == ManualConnectionMethod.internet:
-                self.__set_sender_config()
+        # else:
+        #     if self.manual_connection_method == ManualConnectionMethod.internet:
+        #         self.__set_sender_config()
 
 def nothin(non=None, ):
     pass
