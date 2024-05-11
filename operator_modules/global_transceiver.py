@@ -91,27 +91,42 @@ class GlobalTransceiver:
             self.lora_available = lora_available
             print('chaneg lora state to', self.lora_available)
             
-    def __set_receiver_config(self):
+    def __set_receiver_config(self, use_lora=None):
         if self.mqtt_receiver:
             with self.change_receiver_config_lock:
                 def do_nothing(smth=None):
                     pass
                 
-                if self.receiver_internet_available:
-                    self.lora_transceiver.on_encoder_data = do_nothing
-                    self.lora_transceiver.on_gnss_data = do_nothing
+                if use_lora is None:
+                    if self.receiver_internet_available:
+                        self.lora_transceiver.on_encoder_data = do_nothing
+                        self.lora_transceiver.on_gnss_data = do_nothing
 
-                    self.mqtt_receiver.on_encoder_msg = self.encoder_data_callback
-                    self.mqtt_receiver.on_gnss_msg = self.gnss_data_callback
+                        self.mqtt_receiver.on_encoder_msg = self.encoder_data_callback
+                        self.mqtt_receiver.on_gnss_msg = self.gnss_data_callback
 
+                    else:
+                        self.lora_transceiver.on_encoder_data = self.encoder_data_callback
+                        self.lora_transceiver.on_gnss_data = self.gnss_data_callback
+
+                        self.mqtt_receiver.on_encoder_msg = do_nothing
+                        self.mqtt_receiver.on_gnss_msg = do_nothing
                 else:
-                    self.lora_transceiver.on_encoder_data = self.encoder_data_callback
-                    self.lora_transceiver.on_gnss_data = self.gnss_data_callback
+                    if use_lora:
+                        self.lora_transceiver.on_encoder_data = self.encoder_data_callback
+                        self.lora_transceiver.on_gnss_data = self.gnss_data_callback
 
-                    self.mqtt_receiver.on_encoder_msg = do_nothing
-                    self.mqtt_receiver.on_gnss_msg = do_nothing
+                        self.mqtt_receiver.on_encoder_msg = do_nothing
+                        self.mqtt_receiver.on_gnss_msg = do_nothing
+                    
+                    else:
+                        self.lora_transceiver.on_encoder_data = do_nothing
+                        self.lora_transceiver.on_gnss_data = do_nothing
 
-                print('set RECEIVER inet:', self.receiver_internet_available)
+                        self.mqtt_receiver.on_encoder_msg = self.encoder_data_callback
+                        self.mqtt_receiver.on_gnss_msg = self.gnss_data_callback
+
+                print('set RECEIVER inet:', self.receiver_internet_available, use_lora)
 
     def __set_sender_config(self):
         if self.socket_sender and self.lora_transceiver:
@@ -157,16 +172,23 @@ class GlobalTransceiver:
     def set_connection_mode(self, auto: bool, method: ManualConnectionMethod=None):
         if auto:
             self.connection_mode = ConnectionMode.auto
+            self.__set_receiver_config()
 
         else:
             self.connection_mode = ConnectionMode.manual
             if method:
                 self.manual_connection_method = method
+
+                if method == ManualConnectionMethod.LoRa:
+                    self.__set_receiver_config(use_lora=True)
+                else:
+                    self.__set_receiver_config()
             else:
                 self.manual_connection_method = ManualConnectionMethod.LoRa
+                self.__set_receiver_config(use_lora=True)
 
         self.__set_sender_config()
-        self.__set_receiver_config()
+
 
     def send(self, data: str):
         print(time.time(),'sent with ', self.sender)
