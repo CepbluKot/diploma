@@ -70,8 +70,9 @@ class GlobalTransceiver:
         
         # self.socket_sender.on_socket_disconnect_action = self.socket_sender_disconnect_action
         # self.socket_sender.on_socket_reconnect_action = self.socket_sender_reconnect_action
-            
+        
         self.sender = self.socket_sender
+        self.__set_sender_config()
             
 
     def __change_sender_internet_state(self, internet_available):
