@@ -4,11 +4,12 @@ import socket, json, serial
 
 
 class LoRaTransceiver:
-    def __init__(self, \
-                 encoder_data_callback,\
-                 gnss_data_callback) -> None:
-        def do_nothing():
-            pass
+    def __init__(self, 
+                 encoder_data_callback,
+                 gnss_data_callback,
+                 on_lora_disconnect_action,
+                 on_lora_reconnect_action) -> None:
+ 
         
         self.config = json.load(open("config.json"))
 
@@ -17,25 +18,27 @@ class LoRaTransceiver:
         self.on_encoder_data = encoder_data_callback
         self.on_gnss_data = gnss_data_callback
         
-        self.on_lora_disconnect_action = do_nothing
-        self.on_lora_reconnect_action = do_nothing
+        self.on_lora_disconnect_action = on_lora_disconnect_action
+        self.on_lora_reconnect_action = on_lora_reconnect_action
 
         self.is_lora_connected = True
         self.baudrate = 9600
         self.serial_conn = serial.Serial(self.port, self.baudrate)
 
-        read_thr = threading.Thread(target=self.recv_thread, args=(5, ))
-        # read_thr.daemon = True
+        read_thr = threading.Thread(target=self.recv_thread, args=(10, ))
+        read_thr.daemon = True
         read_thr.start()
-        read_thr.join()
+        # read_thr.join()
 
     def send(self, data: str):
         self.serial_conn.write(data.encode()+b'\r')
 
     def on_connect(self,):
-            if not self.is_lora_connected:
-                print('lora connected')
-            self.is_lora_connected = True
+        if not self.is_lora_connected:
+            print('lora connected')
+            self.on_lora_reconnect_action()
+        
+        self.is_lora_connected = True
 
     def on_recv(self, data:str):
         parsed_data = data
@@ -75,7 +78,6 @@ class LoRaTransceiver:
 
                     if self.serial_conn.in_waiting:
                         self.on_connect()
-                        self.on_lora_reconnect_action()
 
                 except Exception:
                     pass

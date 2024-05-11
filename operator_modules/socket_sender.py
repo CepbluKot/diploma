@@ -4,17 +4,16 @@ import socket, json
 
 
 class SocketSender:
-    def __init__(self) -> None:
-        def do_nothing():
-            pass
+    def __init__(self, on_socket_disconnect_action, on_socket_reconnect_action) -> None:
+        
 
         self.config = json.load(open("config.json"))
 
         self.address = self.config['robot_address']
         self.port = self.config['socket_port']
         
-        self.on_socket_disconnect_action = do_nothing
-        self.on_socket_reconnect_action = do_nothing
+        self.on_socket_disconnect_action = on_socket_disconnect_action
+        self.on_socket_reconnect_action = on_socket_reconnect_action
 
         self.is_socket_connected = False
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -45,15 +44,19 @@ class SocketSender:
     def on_socket_disconnected(self):
         print('socket disconnected')
         self.is_socket_connected = False
+        self.on_socket_disconnect_action()
+        print('sok on discon action done')
 
         def reconnect_procedure():
             while not self.is_socket_connected:
                 try:
                     time.sleep(5)
+                    # print('sock recon in porgress')
                     self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     self.s.connect((self.address, self.port))
                     self.on_connect()
-                
+                    self.on_socket_reconnect_action()
+
                 except Exception:
                     pass
         
@@ -66,4 +69,4 @@ if __name__=='__main__':
     while 1:
         time.sleep(2)
         n.send('wewreg')
-        print('riidn high')
+        # print('riidn high')

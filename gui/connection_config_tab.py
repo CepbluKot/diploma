@@ -47,7 +47,8 @@ def connection_config_tab(frame):
     conn_type_label.grid(row=3, column=3+1, )
 
 
-    # --- connection type selector ---
+    # man/auto connection
+
 
     connection_type_label = Label(master=frame, text='Connection Type', background='white')
     connection_type_label.grid(row=1, column=3+1+1, padx=(100, 10), pady=(100,10))
@@ -55,17 +56,37 @@ def connection_config_tab(frame):
     connection_type_param = StringVar()
 
     def change_conn_type_btn():
-        
-        print('wtf',connection_type_param.get() )
+        if connection_type_param.get() == "Auto":
+            connection_method_lora_radiobtn.configure(state = DISABLED)
+            connection_method_server_radiobtn.configure(state = DISABLED)
 
-    connection_type_lora_radiobtn = Radiobutton(master=frame,  text="LoRa", variable=connection_type_param, anchor=W, value="LoRa", command=change_conn_type_btn)
-    connection_type_lora_radiobtn.grid(row=2, column=3+1+1, padx=(100, 10), sticky=W)
+        elif connection_type_param.get() == "Manual":
+            connection_method_lora_radiobtn.configure(state = NORMAL)
+            connection_method_server_radiobtn.configure(state = NORMAL)
 
-    conn_type_indicator = Label(master=frame, text=str(None), background='white')
-    conn_type_indicator.grid(row=2, column=5+1)
+    
+    connection_type_auto_radiobtn = Radiobutton(master=frame,  text="Auto", variable=connection_type_param, anchor=W, value="Auto", command=change_conn_type_btn)
+    connection_type_auto_radiobtn.grid(row=2, column=3+1+1, padx=(100, 10), sticky=W)
 
-    connection_type_server_radiobtn = Radiobutton(master=frame, text="Internet", variable=connection_type_param, anchor=W, value="Internet", command=change_conn_type_btn)
-    connection_type_server_radiobtn.grid(row=3, column=3+1+1, padx=(100, 10), sticky=W)
 
-    conn_type_indicator = Label(master=frame, text=str(None), background='white')
-    conn_type_indicator.grid(row=3, column=5+1)
+    connection_type_manual_radiobtn = Radiobutton(master=frame, text="Manual", variable=connection_type_param, anchor=W, value="Manual", command=change_conn_type_btn)
+    connection_type_manual_radiobtn.grid(row=3, column=3+1+1, padx=(100, 10), sticky=W)
+
+
+    # --- connection method selector ---
+
+    connection_method_label = Label(master=frame, text='Connection Method', background='white')
+    connection_method_label.grid(row=1, column=3+1+1+1, padx=(100, 10), pady=(100,10))
+
+    connection_method_param = StringVar()
+
+    def change_conn_method_btn():
+        print('method',connection_method_param.get() )
+
+    connection_method_lora_radiobtn = Radiobutton(master=frame,  text="LoRa", variable=connection_method_param, anchor=W, value="LoRa", command=change_conn_method_btn)
+    connection_method_lora_radiobtn.grid(row=2, column=3+1+1+1, padx=(100, 10), sticky=W)
+
+
+    connection_method_server_radiobtn = Radiobutton(master=frame, text="Internet", variable=connection_method_param, anchor=W, value="Internet", command=change_conn_method_btn)
+    connection_method_server_radiobtn.grid(row=3, column=3+1+1+1, padx=(100, 10), sticky=W)
+
