@@ -48,9 +48,7 @@ def init_gui():
     connection_status_internet_param_label,\
     connection_status_lora_param_label,\
     connection_method_param,\
-    connection_type_param,\
     connection_type_auto_radiobtn,\
-    connection_type_manual_radiobtn,\
     connection_method_lora_radiobtn,\
     connection_method_server_radiobtn = connection_config_tab(tab2)
 
@@ -95,36 +93,22 @@ def init_gui():
                               gui_lora_disconnect_callback,
                               gui_lora_reconnect_callback)
 
-    def change_conn_type_btn():
-        if connection_type_param.get() == "Auto":
-            connection_method_lora_radiobtn.configure(state = DISABLED)
-            connection_method_server_radiobtn.configure(state = DISABLED)
-
-        elif connection_type_param.get() == "Manual":
-            connection_method_lora_radiobtn.configure(state = NORMAL)
-            connection_method_server_radiobtn.configure(state = NORMAL)
-
-
     def change_connection_type_to_auto_action():
         nonlocal trans
         trans.set_connection_mode(auto=True)
-        change_conn_type_btn()
 
         print('chng 2 auto')
 
     def change_connection_type_to_manual_action():
         nonlocal trans
         new_conn_type = connection_method_param.get()
-        change_conn_type_btn()
 
         if new_conn_type:
             trans.set_connection_mode(auto=False, method=new_conn_type)
 
-        print('chng 2 man')
 
     connection_type_auto_radiobtn.config(command=change_connection_type_to_auto_action)
-    connection_type_manual_radiobtn.config(command=change_connection_type_to_manual_action)
-    
+
     connection_method_lora_radiobtn.config(command=change_connection_type_to_manual_action)
     connection_method_server_radiobtn.config(command=change_connection_type_to_manual_action)
     
@@ -137,14 +121,15 @@ def init_gui():
             
             if curr_conn_type.value == 'LoRa':
                 conn_status_indicator.config(background='green')
-            
+                conn_status_indicator.config(text='LoRa')
+
             elif curr_conn_type.value == 'socket':
                 conn_status_indicator.config(background='green')
+                conn_status_indicator.config(text='internet')
 
             else:
                 conn_status_indicator.config(background='red')
-
-            conn_status_indicator.config(text=curr_conn_type.value)
+                conn_status_indicator.config(text='no connection')
 
     def test_sender(): 
         while 1:

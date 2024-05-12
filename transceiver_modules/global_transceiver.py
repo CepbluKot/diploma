@@ -11,7 +11,7 @@ from transceiver_modules.mqtt_receiver import MQTTReceiver
 
 from enum import Enum
 
-
+    
 class ManualConnectionMethod(Enum):
     LoRa = 'LoRa'
     internet = 'socket'
@@ -285,6 +285,6 @@ if __name__ == '__main__':
     tre1 = threading.Thread(target=te1)
     tre2 = threading.Thread(target=te2)
     tre1.start()
-    # tre2.start()
+    tre2.start()
     tre1.join()
-    # tre2.join()
+    tre2.join()
