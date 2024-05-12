@@ -40,11 +40,11 @@ class LoRaTransceiver:
 
 
     def send(self, data: str):
-        with self.serial_interaction_lock:
-            if self.serial_conn:
-                self.serial_conn.write(data.encode()+b'\r')
-                print(time.time(),'send', data)
-        # pass
+        # with self.serial_interaction_lock:
+        #     if self.serial_conn:
+        #         self.serial_conn.write(data.encode()+b'\r')
+        #         print(time.time(),'send', data)
+        pass
     
 
     def on_connect(self,):
