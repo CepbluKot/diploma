@@ -30,6 +30,7 @@ class SocketSender:
             def send_action():
                 try:
                     self.s.sendall(data.encode())
+                    print('sock sent')
                 except Exception:
                     self.on_socket_disconnected()
             

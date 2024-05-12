@@ -7,7 +7,7 @@ from gui.controls_tab import controls_tab
 from gui.connection_config_tab import connection_config_tab
 
 
-from transceiver_modules.global_transceiver import GlobalTransceiver
+from transceiver_modules.global_transceiver import GlobalTransceiver, ManualConnectionMethod
 import tkintermapview
 import paho.mqtt.client as mqtt
 
@@ -92,19 +92,19 @@ def init_gui():
                               gui_lora_connect_callback,
                               gui_lora_disconnect_callback,
                               gui_lora_reconnect_callback)
-
+    
     def change_connection_type_to_auto_action():
         nonlocal trans
-        trans.set_connection_mode(auto=True)
-
-        print('chng 2 auto')
+        trans.set_connection_mode(True)
 
     def change_connection_type_to_manual_action():
         nonlocal trans
         new_conn_type = connection_method_param.get()
 
-        if new_conn_type:
-            trans.set_connection_mode(auto=False, method=new_conn_type)
+        if new_conn_type == "LoRa":
+            trans.set_connection_mode(False, ManualConnectionMethod.LoRa)
+        elif new_conn_type == "socket":
+            trans.set_connection_mode(False, ManualConnectionMethod.internet)
 
 
     connection_type_auto_radiobtn.config(command=change_connection_type_to_auto_action)

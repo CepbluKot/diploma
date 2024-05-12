@@ -45,6 +45,7 @@ class LoRaTransceiver:
         #         self.serial_conn.write(data.encode()+b'\r')
         #         print(time.time(),'send', data)
         pass
+        print('lora sent')
     
 
     def on_connect(self,):
@@ -82,7 +83,7 @@ class LoRaTransceiver:
                     start_wait_time = time.time()
                     self.on_recv(read_data)
                     self.on_connect()
-                    print(abs(time.time() - start_wait_time),'lora recv',read_data)
+                    # print(abs(time.time() - start_wait_time),'lora recv',read_data)
             
                 else:
                     if self.is_lora_connected and abs(time.time() - start_wait_time) >= conn_timeout:
