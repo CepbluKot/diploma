@@ -1,5 +1,5 @@
 {
-    "lidar_serial_port": "/dev/ttyUSB0",
+    "lidar_serial_port": "/dev/ttyUSB1",
     "gnss_serial_port": "/dev/ttyUSB1",
     
     "robot_address": "localhost",

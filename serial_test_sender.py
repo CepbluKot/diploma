@@ -11,7 +11,7 @@ def search_for_ports():
 def do_staff():
     
     # port = search_for_ports()[0].device
-    port = '/dev/ttyUSB0'
+    port = '/dev/ttyUSB2'
     baudrate = 9600
     serial_conn = serial.Serial(port, baudrate)
     

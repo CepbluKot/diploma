@@ -51,7 +51,7 @@ class SocketSender:
         def reconnect_procedure():
             while not self.is_socket_connected:
                 try:
-                    # time.sleep(5)
+                    time.sleep(0.1)
                     self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     self.s.connect((self.address, self.port))
                     self.on_connect()

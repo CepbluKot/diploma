@@ -92,7 +92,7 @@ class MQTTReceiver:
         def reconnect_procedure():
             while not self.is_mqtt_connected:
                 try:
-                    time.sleep(1)
+                    time.sleep(0.1)
 
                     client.on_connect = self.on_connect
                     client.on_disconnect = self.on_disconnect

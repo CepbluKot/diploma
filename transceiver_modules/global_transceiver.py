@@ -1,9 +1,14 @@
-from transceiver_modules.socket_sender import SocketSender
 import paho.mqtt.client as mqtt
 import threading
 import json, time
+from transceiver_modules.socket_sender import SocketSender
 from transceiver_modules.lora_transceiver import LoRaTransceiver
 from transceiver_modules.mqtt_receiver import MQTTReceiver
+
+# from lora_transceiver import LoRaTransceiver
+# from mqtt_receiver import MQTTReceiver
+# from socket_sender import SocketSender
+
 from enum import Enum
 
 
@@ -206,7 +211,7 @@ class GlobalTransceiver:
                 self.__set_receiver_config(use_lora=True)
 
         self.__set_sender_config()
-
+        print('conn mode set')
 
     def send(self, data: str):
         # print(time.time(),'sent with ', self.sender)
@@ -254,7 +259,7 @@ if __name__ == '__main__':
     def nothin(non=None, ):
         pass
 
-    trans = GlobalTransceiver( nothin,nothin, nothin, nothin,  nothin)
+    trans = GlobalTransceiver( nothin,nothin,nothin,nothin,nothin,nothin,nothin,nothin, nothin, nothin,  nothin)
     def te1():
         while 1:
             import time
@@ -280,6 +285,6 @@ if __name__ == '__main__':
     tre1 = threading.Thread(target=te1)
     tre2 = threading.Thread(target=te2)
     tre1.start()
-    tre2.start()
+    # tre2.start()
     tre1.join()
-    tre2.join()
+    # tre2.join()

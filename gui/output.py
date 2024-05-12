@@ -132,6 +132,7 @@ def init_gui():
     
     def conn_type_updater():
         while 1 :
+            time.sleep(1)
             curr_conn_type = trans.get_curr_connection_type()
             
             if curr_conn_type.value == 'LoRa':

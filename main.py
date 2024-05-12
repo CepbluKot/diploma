@@ -2,7 +2,6 @@ from gui.output import init_gui
 import multiprocessing
 from interface_windows.lidar_window import launch as lidar_launch
 from interface_windows.depth_cam_window import launch as depth_cam_launch
-from interface_windows.map_window import launch as map_launch
 import threading
 
 

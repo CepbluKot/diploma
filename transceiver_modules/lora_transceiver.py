@@ -43,7 +43,7 @@ class LoRaTransceiver:
 
     def on_connect(self,):
         if not self.is_lora_connected:
-            print('lora connected')
+            # print(time.time(), 'lora connected')
             self.on_lora_reconnect_action()
         
         else:
@@ -60,29 +60,34 @@ class LoRaTransceiver:
     def recv_thread(self, conn_timeout: int):
         start_wait_time = time.time()
         while self.serial_conn.is_open:
-            if self.serial_conn.in_waiting:
-                read_data = self.serial_conn.read_until(b'\r\n')
-                read_data = read_data[:-2].decode()
-                self.on_recv(read_data)
-                self.on_connect()
-                start_wait_time = time.time()
-            
-            else:
-                if self.is_lora_connected and time.time() - start_wait_time >= conn_timeout:
-                    
-                    self.on_lora_disconnected()
+            # try:
+                if self.serial_conn.in_waiting:
+                    read_data = self.serial_conn.read_until(b'\r\n')
+                    read_data = read_data[:-2].decode()
                     start_wait_time = time.time()
+                    self.on_recv(read_data)
+                    self.on_connect()
+                
+                else:
+                    if self.is_lora_connected and time.time() - start_wait_time >= conn_timeout:
+                        
+                        self.on_lora_disconnected()
+                        start_wait_time = time.time()
+            # except Exception:
+            #     self.on_lora_disconnected()
+            #     start_wait_time = time.time()
 
     def on_lora_disconnected(self):
         if self.is_lora_connected:
-            print('lora disconnected')
+            # print(time.time(), 'lora disconnected')
         
         self.is_lora_connected = False
         self.on_lora_disconnect_action()
+        
         def reconnect_procedure():
             while not self.is_lora_connected:
                 try:
-                    # time.sleep(0.1)
+                    time.sleep(0.1)
                     while not self.serial_conn.is_open:
                         self.serial_conn.close()
                         self.serial_conn = serial.Serial(self.port, self.baudrate)
@@ -90,8 +95,8 @@ class LoRaTransceiver:
                     if self.serial_conn.in_waiting:
                         self.on_connect()
 
-                except Exception:
-                    pass
+                except Exception as e:
+                    print('err', e)
 
         reconnect_thr = threading.Thread(target=reconnect_procedure)
         reconnect_thr.daemon = True
