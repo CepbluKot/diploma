@@ -11,7 +11,8 @@ from transceiver_modules.global_transceiver import GlobalTransceiver, ManualConn
 import tkintermapview
 import paho.mqtt.client as mqtt
 
-from ds3_control.controller import run
+from ds3_control.controller import run as ds3_run
+from gnss_reader import run as gnss_run
 
 
 def open_map_window():
@@ -28,7 +29,12 @@ def open_map_window():
     map_widget.set_tile_server("https://mt0.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}&s=Ga", max_zoom=22)  # google satellite
     map_widget.set_position(56.255518, 38.467219, marker=True)
 
+    def change_pos(lat, lon):
+        map_widget.set_position(lat,lon, marker=True)
 
+    pos_upd_thr = threading.Thread(target=gnss_run, args=(change_pos,))
+    pos_upd_thr.daemon = True
+    pos_upd_thr.start()
     
 
 def init_gui():
@@ -139,7 +145,7 @@ def init_gui():
                 time.sleep(1)
                 trans.send('elloy')
 
-    run(trans.send)
+    ds3_run(trans.send)
  
     conn_type_upd_thr = threading.Thread(target=conn_type_updater)
     conn_type_upd_thr.daemon = True

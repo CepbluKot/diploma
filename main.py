@@ -15,3 +15,4 @@ if __name__ == '__main__':
     gui_process.join()
     lidar_view_process.join()
     cam_view_process.join()
+

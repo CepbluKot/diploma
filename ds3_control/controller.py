@@ -142,7 +142,6 @@ def run(send_json_command):
     th1 = threading.Thread(target=controller_work_thr)
     th1.daemon = True
     th1.start()
-    th1.join()
 
 
 if __name__ == "__main__":

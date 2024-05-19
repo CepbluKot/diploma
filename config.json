@@ -7,7 +7,7 @@
     "MQTT_port": 1883,
     "socket_port": 8005,
 
-    "LoRa_operator_transceiver_port":"/dev/ttyUSB0",
+    "LoRa_operator_transceiver_port":"/dev/ttyUSB1",
     "LoRa_robot_transceiver_port":"/dev/ttyUSB1",
 
 
