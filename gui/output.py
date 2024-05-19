@@ -11,6 +11,8 @@ from transceiver_modules.global_transceiver import GlobalTransceiver, ManualConn
 import tkintermapview
 import paho.mqtt.client as mqtt
 
+from ds3_control.controller import run
+
 
 def open_map_window():
     # Create secondary (or popup) window.
@@ -137,6 +139,7 @@ def init_gui():
                 time.sleep(1)
                 trans.send('elloy')
 
+    run(trans.send)
  
     conn_type_upd_thr = threading.Thread(target=conn_type_updater)
     conn_type_upd_thr.daemon = True
