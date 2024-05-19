@@ -30,7 +30,7 @@ class SocketSender:
             def send_action():
                 try:
                     self.s.sendall(data.encode())
-                    print('sock sent')
+                    # print('sock sent')
                 except Exception:
                     self.on_socket_disconnected()
             
@@ -47,7 +47,7 @@ class SocketSender:
         print('socket disconnected')
         self.is_socket_connected = False
         self.on_socket_disconnect_action()
-        print('sok on discon action done')
+        # print('sok on discon action done')
 
         def reconnect_procedure():
             while not self.is_socket_connected:

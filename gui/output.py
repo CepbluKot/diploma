@@ -15,7 +15,7 @@ import paho.mqtt.client as mqtt
 def open_map_window():
     # Create secondary (or popup) window.
     secondary_window = Toplevel()
-    secondary_window.title("Secondary Window")
+    secondary_window.title("GNSS")
     secondary_window.config(width=500, height=500)
     
     old_marker = None
@@ -24,22 +24,22 @@ def open_map_window():
     map_widget = tkintermapview.TkinterMapView(secondary_window, width=500, height=500, corner_radius=0)
     map_widget.pack(fill="both", expand=True)
     map_widget.set_tile_server("https://mt0.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}&s=Ga", max_zoom=22)  # google satellite
-    map_widget.set_position(56.255518, 38.467219)
+    map_widget.set_position(56.255518, 38.467219, marker=True)
 
 
     
 
 def init_gui():
     window = Tk()
-    window.title("Robot service app")
-    window.geometry('1500x450')
+    window.title("Robot control app")
+    window.geometry('1500x500')
     
     tab_control = Notebook(window)  
     tab1 = Frame(tab_control)  
     tab2 = Frame(tab_control)
     
-    tab_control.add(tab1, text='controls_tab')  
-    tab_control.add(tab2, text='connection_config')
+    tab_control.add(tab1, text='Управление')  
+    tab_control.add(tab2, text='Подключение')
 
     tab_control.pack(expand=1, fill='both')  
 
@@ -57,27 +57,27 @@ def init_gui():
         pass
     
     def gui_socket_connect_callback():
-        connection_status_internet_param_label.configure(text='connected',
+        connection_status_internet_param_label.configure(text='подключено',
                                                          background='green')
 
     def gui_socket_disconnect_callback():
-        connection_status_internet_param_label.configure(text='no connection',
+        connection_status_internet_param_label.configure(text='нет подключения',
                                                          background='red')
     
     def gui_socket_reconnect_callback():
-        connection_status_internet_param_label.configure(text='connected',
+        connection_status_internet_param_label.configure(text='подключено',
                                                          background='green')
             
     def gui_lora_disconnect_callback():
-        connection_status_lora_param_label.configure(text='no connection',
+        connection_status_lora_param_label.configure(text='нет подключения',
                                                     background='red')
     
     def gui_lora_reconnect_callback():
-        connection_status_lora_param_label.configure(text='connected',
+        connection_status_lora_param_label.configure(text='подключено',
                                                     background='green')
 
     def gui_lora_connect_callback():
-        connection_status_lora_param_label.configure(text='connected',
+        connection_status_lora_param_label.configure(text='подключено',
                                                     background='green')
 
 
@@ -125,11 +125,11 @@ def init_gui():
 
             elif curr_conn_type.value == 'socket':
                 conn_status_indicator.config(background='green')
-                conn_status_indicator.config(text='internet')
+                conn_status_indicator.config(text='internet/LAN')
 
             else:
                 conn_status_indicator.config(background='red')
-                conn_status_indicator.config(text='no connection')
+                conn_status_indicator.config(text='нет подключения')
 
     def test_sender(): 
         while 1:

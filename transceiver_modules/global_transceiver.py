@@ -45,7 +45,6 @@ class GlobalTransceiver:
         class NoSender:
             def send(self, data=None):
                 pass
-                print('no sender doin nothin')
                 
         self.no_sender = NoSender()
 

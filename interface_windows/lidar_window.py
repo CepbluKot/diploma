@@ -56,6 +56,7 @@ IMAX = 50
 
 def run():
     fig = plt.figure()
+    fig.canvas.manager.set_window_title('LiDar')
     ax = plt.subplot(111, projection='polar')
     line = ax.scatter([0, 0], [0, 0], s=5, c=[IMIN, IMAX],
                            cmap=plt.cm.Greys_r, lw=0)

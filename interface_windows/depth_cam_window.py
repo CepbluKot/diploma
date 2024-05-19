@@ -55,17 +55,16 @@ def run():
         if len(depth_msg) and len(rgb_msg):
             try:
                 depth = frame_convert2.pretty_depth_cv(depth_msg)
+
                 rgb = frame_convert2.video_cv(rgb_msg)
 
             except:
                 pass
             
         cv2.imshow('Depth', depth)
-        cv2.imshow('rgb', rgb)
+        cv2.imshow('RGB', rgb)
 
-        cv2.waitKey(70)
-
-
+        cv2.waitKey(1000)
 
 def launch():
     t1 = threading.Thread(target=client.loop_forever)
