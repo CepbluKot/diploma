@@ -32,7 +32,7 @@ Activate.ps1 -VenvDir C:\Users\MyUser\Common\.venv
 Activates the Python virtual environment located in the specified location.
 
 .Example
-Activate.ps1 -Prompt "MyPython"
+Activate.ps1 -Prompt 'MyPython'
 Activates the Python virtual environment that contains the Activate.ps1 script,
 and prefixes the current prompt with the specified string (surrounded in
 parentheses) while the virtual environment is active.
@@ -97,7 +97,7 @@ function global:deactivate ([switch]$NonDestructive) {
     }
 
     # Just remove the _PYTHON_VENV_PROMPT_PREFIX altogether:
-    if (Get-Variable -Name "_PYTHON_VENV_PROMPT_PREFIX" -ErrorAction SilentlyContinue) {
+    if (Get-Variable -Name '_PYTHON_VENV_PROMPT_PREFIX' -ErrorAction SilentlyContinue) {
         Remove-Variable -Name _PYTHON_VENV_PROMPT_PREFIX -Scope Global -Force
     }
 
@@ -117,7 +117,7 @@ two strings separated by `=` (with any amount of whitespace surrounding the =)
 then it is considered a `key = value` line. The left hand string is the key,
 the right hand is the value.
 
-If the value starts with a `'` or a `"` then the first and last character is
+If the value starts with a `'` or a `'` then the first and last character is
 stripped from the value before being captured.
 
 .Parameter ConfigDir
@@ -127,7 +127,7 @@ function Get-PyVenvConfig(
     [String]
     $ConfigDir
 ) {
-    Write-Verbose "Given ConfigDir=$ConfigDir, obtain values in pyvenv.cfg"
+    Write-Verbose 'Given ConfigDir=$ConfigDir, obtain values in pyvenv.cfg'
 
     # Ensure the file exists, and issue a warning if it doesn't (but still allow the function to continue).
     $pyvenvConfigPath = Join-Path -Resolve -Path $ConfigDir -ChildPath 'pyvenv.cfg' -ErrorAction Continue
@@ -137,21 +137,21 @@ function Get-PyVenvConfig(
 
     if ($pyvenvConfigPath) {
 
-        Write-Verbose "File exists, parse `key = value` lines"
+        Write-Verbose 'File exists, parse `key = value` lines'
         $pyvenvConfigContent = Get-Content -Path $pyvenvConfigPath
 
         $pyvenvConfigContent | ForEach-Object {
-            $keyval = $PSItem -split "\s*=\s*", 2
+            $keyval = $PSItem -split '\s*=\s*', 2
             if ($keyval[0] -and $keyval[1]) {
                 $val = $keyval[1]
 
                 # Remove extraneous quotations around a string value.
-                if ("'""".Contains($val.Substring(0, 1))) {
+                if ('''''.Contains($val.Substring(0, 1))) {
                     $val = $val.Substring(1, $val.Length - 2)
                 }
 
                 $pyvenvConfig[$keyval[0]] = $val
-                Write-Verbose "Adding Key: '$($keyval[0])'='$val'"
+                Write-Verbose 'Adding Key: '$($keyval[0])'='$val''
             }
         }
     }
@@ -165,20 +165,20 @@ function Get-PyVenvConfig(
 $VenvExecPath = Split-Path -Parent $MyInvocation.MyCommand.Definition
 $VenvExecDir = Get-Item -Path $VenvExecPath
 
-Write-Verbose "Activation script is located in path: '$VenvExecPath'"
-Write-Verbose "VenvExecDir Fullname: '$($VenvExecDir.FullName)"
-Write-Verbose "VenvExecDir Name: '$($VenvExecDir.Name)"
+Write-Verbose 'Activation script is located in path: '$VenvExecPath''
+Write-Verbose 'VenvExecDir Fullname: '$($VenvExecDir.FullName)'
+Write-Verbose 'VenvExecDir Name: '$($VenvExecDir.Name)'
 
 # Set values required in priority: CmdLine, ConfigFile, Default
 # First, get the location of the virtual environment, it might not be
 # VenvExecDir if specified on the command line.
 if ($VenvDir) {
-    Write-Verbose "VenvDir given as parameter, using '$VenvDir' to determine values"
+    Write-Verbose 'VenvDir given as parameter, using '$VenvDir' to determine values'
 }
 else {
-    Write-Verbose "VenvDir not given as a parameter, using parent directory name as VenvDir."
-    $VenvDir = $VenvExecDir.Parent.FullName.TrimEnd("\\/")
-    Write-Verbose "VenvDir=$VenvDir"
+    Write-Verbose 'VenvDir not given as a parameter, using parent directory name as VenvDir.'
+    $VenvDir = $VenvExecDir.Parent.FullName.TrimEnd('\\/')
+    Write-Verbose 'VenvDir=$VenvDir'
 }
 
 # Next, read the `pyvenv.cfg` file to determine any required value such
@@ -188,23 +188,23 @@ $pyvenvCfg = Get-PyVenvConfig -ConfigDir $VenvDir
 # Next, set the prompt from the command line, or the config file, or
 # just use the name of the virtual environment folder.
 if ($Prompt) {
-    Write-Verbose "Prompt specified as argument, using '$Prompt'"
+    Write-Verbose 'Prompt specified as argument, using '$Prompt''
 }
 else {
-    Write-Verbose "Prompt not specified as argument to script, checking pyvenv.cfg value"
+    Write-Verbose 'Prompt not specified as argument to script, checking pyvenv.cfg value'
     if ($pyvenvCfg -and $pyvenvCfg['prompt']) {
-        Write-Verbose "  Setting based on value in pyvenv.cfg='$($pyvenvCfg['prompt'])'"
+        Write-Verbose '  Setting based on value in pyvenv.cfg='$($pyvenvCfg['prompt'])''
         $Prompt = $pyvenvCfg['prompt'];
     }
     else {
-        Write-Verbose "  Setting prompt based on parent's directory's name. (Is the directory name passed to venv module when creating the virutal environment)"
-        Write-Verbose "  Got leaf-name of $VenvDir='$(Split-Path -Path $venvDir -Leaf)'"
+        Write-Verbose '  Setting prompt based on parent's directory's name. (Is the directory name passed to venv module when creating the virutal environment)'
+        Write-Verbose '  Got leaf-name of $VenvDir='$(Split-Path -Path $venvDir -Leaf)''
         $Prompt = Split-Path -Path $venvDir -Leaf
     }
 }
 
-Write-Verbose "Prompt = '$Prompt'"
-Write-Verbose "VenvDir='$VenvDir'"
+Write-Verbose 'Prompt = '$Prompt''
+Write-Verbose 'VenvDir='$VenvDir''
 
 # Deactivate any currently active virtual environment, but leave the
 # deactivate function in place.
@@ -216,16 +216,16 @@ $env:VIRTUAL_ENV = $VenvDir
 
 if (-not $Env:VIRTUAL_ENV_DISABLE_PROMPT) {
 
-    Write-Verbose "Setting prompt to '$Prompt'"
+    Write-Verbose 'Setting prompt to '$Prompt''
 
     # Set the prompt to include the env name
     # Make sure _OLD_VIRTUAL_PROMPT is global
-    function global:_OLD_VIRTUAL_PROMPT { "" }
+    function global:_OLD_VIRTUAL_PROMPT { '' }
     Copy-Item -Path function:prompt -Destination function:_OLD_VIRTUAL_PROMPT
-    New-Variable -Name _PYTHON_VENV_PROMPT_PREFIX -Description "Python virtual environment prompt prefix" -Scope Global -Option ReadOnly -Visibility Public -Value $Prompt
+    New-Variable -Name _PYTHON_VENV_PROMPT_PREFIX -Description 'Python virtual environment prompt prefix' -Scope Global -Option ReadOnly -Visibility Public -Value $Prompt
 
     function global:prompt {
-        Write-Host -NoNewline -ForegroundColor Green "($_PYTHON_VENV_PROMPT_PREFIX) "
+        Write-Host -NoNewline -ForegroundColor Green '($_PYTHON_VENV_PROMPT_PREFIX) '
         _OLD_VIRTUAL_PROMPT
     }
 }
@@ -238,4 +238,4 @@ if (Test-Path -Path Env:PYTHONHOME) {
 
 # Add the venv to the PATH
 Copy-Item -Path Env:PATH -Destination Env:_OLD_VIRTUAL_PATH
-$Env:PATH = "$VenvExecDir$([System.IO.Path]::PathSeparator)$Env:PATH"
+$Env:PATH = '$VenvExecDir$([System.IO.Path]::PathSeparator)$Env:PATH'

@@ -1,15 +1,20 @@
 {
     "lidar_serial_port": "/dev/ttyUSB0",
-    "gnss_serial_port": "/dev/ttyUSB",
+    "gnss_serial_port": "/dev/ttyUSB1",
+    "encoder_serial_port": "/dev/ttyUSB2",
     
     "robot_address": "127.0.0.1",
+    "operator_address": "127.0.0.1",
+
     "http_server_port": 8888,
     "MQTT_port": 1883,
     "socket_port": 8005,
 
-    "LoRa_operator_transceiver_port":"/dev/ttyUSB1",
-    "LoRa_robot_transceiver_port":"/dev/ttyUSB1",
+    "LoRa_operator_sender_port":"/dev/ttyUSB2",
+    "LoRa_operator_receiver_port":"/dev/ttyUSB3",
 
+    "LoRa_robot_sender_port":"/dev/ttyUSB4",
+    "LoRa_robot_receiver_port":"/dev/ttyUSB5",
 
     "lidar_data_router": "/lidar",
     "depth_cam_data_router": "/depth_cam",

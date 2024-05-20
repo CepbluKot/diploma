@@ -4,22 +4,22 @@ import pickle
 import json
 
 
-config = json.load(open("config.json"))
-LIDAR_PORT_NAME = config["lidar_serial_port"]
-ADDRESS = config["robot_address"]
-MQTT_PORT = config["MQTT_port"]
-MQTT_TOPIC_PICKLE = config["lidar_topic_pickle_format"]
-MQTT_TOPIC_STR = config["lidar_topic_str_format"]
+config = json.load(open('config.json'))
+LIDAR_PORT_NAME = config['lidar_serial_port']
+ADDRESS = config['robot_address']
+MQTT_PORT = config['MQTT_port']
+MQTT_TOPIC_PICKLE = config['lidar_topic_pickle_format']
+MQTT_TOPIC_STR = config['lidar_topic_str_format']
 
 
 def on_connect(client, userdata, flags, rc):
-    print("Connected with result code " + str(rc))
+    print('Connected with result code ' + str(rc))
 
 send_status = False
 def on_publish(client, userdata, mid):
     global send_status
     if not send_status:
-        print("lidar data being sended")
+        print('lidar data being sended')
         send_status = True
 
 client = mqtt.Client()

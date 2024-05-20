@@ -7,21 +7,21 @@ import pynmea2
 import paho.mqtt.client as mqtt
 
 
-config = json.load(open("config.json"))
-GNSS_PORT_NAME = config["gnss_serial_port"]
-ADDRESS = config["robot_address"]
-MQTT_PORT = config["MQTT_port"]
-MQTT_TOPIC_STR = config["gnss_topic_str_format"]
+config = json.load(open('config.json'))
+GNSS_PORT_NAME = config['gnss_serial_port']
+ADDRESS = config['robot_address']
+MQTT_PORT = config['MQTT_port']
+MQTT_TOPIC_STR = config['gnss_topic_str_format']
 
 
 def on_connect(client, userdata, flags, rc):
-    print("Connected with result code " + str(rc))
+    print('Connected with result code ' + str(rc))
 
 send_status = False
 def on_publish(client, userdata, mid):
     global send_status
     if not send_status:
-        print("gnss data being sended")
+        print('gnss data being sended')
         send_status = True
 
 client = mqtt.Client()
@@ -56,7 +56,7 @@ def run():
 
     while serial_conn.is_open:
         try:
-            parsed = pynmea2.parse(serial_conn.readline().decode("utf-8"))
+            parsed = pynmea2.parse(serial_conn.readline().decode('utf-8'))
 
             if isinstance(parsed, pynmea2.types.talker.VTG):
                 global_gnss_data.true_track = parsed.true_track
@@ -89,6 +89,6 @@ def test_run():
     except Exception:
         pass
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     # run()
     test_run()
