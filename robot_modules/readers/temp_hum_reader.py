@@ -4,10 +4,10 @@ import serial.tools.list_ports
 
 
 class TempHumReader:
-    def __init__(self, on_temp_hum_data) -> None:
+    def __init__(self, on_temp_hum_data, config: dict) -> None:
         self.on_temp_hum_data = on_temp_hum_data
 
-        self.config = json.load(open("config.json"))
+        self.config = config
         self.temp_hum_port = self.config["temp_hum_serial_port"]
         self.baudrate = 9600
 

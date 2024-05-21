@@ -7,10 +7,10 @@ from data_formats.gnss_data import GNSSData
 
 
 class GNSSReader:
-    def __init__(self, on_gnss_data) -> None:
+    def __init__(self, on_gnss_data, config: dict) -> None:
         self.on_gnss_data = on_gnss_data
 
-        self.config = json.load(open("config.json"))
+        self.config = config
         self.gnss_port = self.config["gnss_serial_port"]
         self.baudrate = 9600
 

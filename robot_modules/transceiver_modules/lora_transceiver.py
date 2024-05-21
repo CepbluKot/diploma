@@ -5,12 +5,9 @@ import serial.serialutil
 
 
 class LoRaTransceiver:
-    def __init__(self,
-                 command_data_callback
-                 ) -> None:
+    def __init__(self, command_data_callback, config: dict) -> None:
  
-        
-        self.config = json.load(open("config.json"))
+        self.config = config
 
         self.sender_port = self.config["LoRa_operator_sender_port"]
         self.receiver_port = self.config["LoRa_operator_receiver_port"]

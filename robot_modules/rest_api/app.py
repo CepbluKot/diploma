@@ -12,6 +12,9 @@ from data_formats.control_command import ControlCommand
 from senders.engine_control_sender import move_control
 
 
+config = json.load(open("config.json"))
+
+
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
@@ -22,7 +25,7 @@ app.add_middleware(
 )
 
 
-@app.get("/lidar")
+@app.get(config['lidar_data_router'])
 async def lidar_data_get():
     processed_vals = []
     for data in all_data.lidar_data:
@@ -34,36 +37,35 @@ async def lidar_data_get():
     return sorted(processed_vals, key=data_sort_key)
 
 
-@app.get("/depth_camera")
+@app.get(config['depth_cam_data_router'])
 async def depth_cam_data():
     if all_data.depth_cam_data is not None and all_data.depth_cam_data.all():
         return json.dumps(all_data.depth_cam_data.tolist())
     else:
         return {}
 
-@app.get("/rgb_camera")
+@app.get(config['rgb_cam_data_router'])
 async def rgb_cam_data():
     if all_data.rgb_cam_data is not None and all_data.rgb_cam_data.all():
         return json.dumps(all_data.rgb_cam_data.tolist())
 
 
-@app.get("/temp_and_hum")
+@app.get(config['temp_hum_data_router'])
 async def temp_and_hum_data() -> TempHumData:
     return TempHumData.parse_raw(all_data.temp_hum_data)
 
 
-@app.get("/gnss")
+@app.get(config['gnss_data_router'])
 async def gnss_data() -> GNSSData:
     return GNSSData.parse_raw(all_data.gnss_data)
 
 
-
-@app.get("/engine_encoders")
+@app.get(config['encoders_data_router'])
 async def encoders_data() -> EngineEncoderData:
     return EngineEncoderData.parse_raw(all_data.encoder_data)
 
 
-@app.post("/engine_command")
+@app.post(config['command_data_router'])
 async def engine_control(command: ControlCommand):
     move_control.execute_command(command)
     

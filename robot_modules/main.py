@@ -1,5 +1,6 @@
 import threading
 import uvicorn
+import json
 from numpy import ndarray
 from transceiver_modules.global_transceiver import GlobalTransceiver
 from senders.engine_control_sender import move_control
@@ -11,13 +12,15 @@ from rest_api.app import app
 
 
 if __name__ == "__main__":
+    config = json.load(open("config.json"))
+    
 
     def on_control_command(raw_command: str):
         move_control.execute_command(raw_command)
         command = ControlCommand.parse_raw(raw_command)
         all_data.last_control_command = command
 
-    transceiver = GlobalTransceiver(on_control_command)
+    transceiver = GlobalTransceiver(on_control_command, config)
     
 
     def on_encoder_data(data: str):
@@ -43,7 +46,8 @@ if __name__ == "__main__":
                              on_depth_cam_data,
                              on_rgb_cam_data,
                              on_lidar_data,
-                             on_temp_hum_data)
+                             on_temp_hum_data,
+                             config)
     
     def send_data_job():
         while send_data_process.is_alive():
@@ -59,7 +63,7 @@ if __name__ == "__main__":
     send_data_process = threading.Thread(target=send_data_job)
 
     def fastapi_job():
-        uvicorn.run(app, host="0.0.0.0", port=5001)
+        uvicorn.run(app, host="0.0.0.0", port=config['http_server_port'])
 
     fastapi_process = threading.Thread(target=fastapi_job)
 

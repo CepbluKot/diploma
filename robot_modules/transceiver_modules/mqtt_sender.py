@@ -3,8 +3,9 @@ import paho.mqtt.client as mqtt
 
 
 class MQTTSender:
-    def __init__(self) -> None:
-        self.config = json.load(open("config.json"))
+    def __init__(self, config: dict) -> None:
+        
+        self.config = config
                 
         address = self.config["robot_address"]
         port = self.config["MQTT_port"]

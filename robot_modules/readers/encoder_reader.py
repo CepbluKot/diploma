@@ -4,10 +4,10 @@ import serial.tools.list_ports
 
 
 class EncoderReader:
-    def __init__(self, on_encoder_data) -> None:
+    def __init__(self, on_encoder_data, config: dict) -> None:
         self.on_encoder_data = on_encoder_data
 
-        self.config = json.load(open("config.json"))
+        self.config = config
         self.encoder_port = self.config["encoder_serial_port"]
         self.baudrate = 9600
 

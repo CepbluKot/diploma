@@ -12,10 +12,11 @@ class AllReaders():
                  on_depth_cam_data,
                  on_rgb_cam_data,
                  on_lidar_data,
-                 on_temp_hum_data) -> None:
+                 on_temp_hum_data,
+                 config: dict) -> None:
         
-        EncoderReader(on_encoder_data)
-        GNSSReader(on_gnss_data)
+        EncoderReader(on_encoder_data, config)
+        GNSSReader(on_gnss_data, config)
         KinectDataReader(on_depth_cam_data, on_rgb_cam_data)
-        LidarDataReader(on_lidar_data)
-        TempHumReader(on_temp_hum_data)
+        LidarDataReader(on_lidar_data, config)
+        TempHumReader(on_temp_hum_data, config)

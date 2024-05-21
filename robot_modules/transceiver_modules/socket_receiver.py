@@ -3,14 +3,11 @@ import socket, json
 
 
 class SocketReceiver:
-    def __init__(self, on_command_recv) -> None:
+    def __init__(self, on_command_recv, config: dict) -> None:
         self.on_command_recv = on_command_recv
-        self.config = json.load(open("config.json"))
-
-        self.is_socket_connected = False
-        self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.config = config
         
-        self.config = json.load(open("config.json"))
+        self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
         port = self.config["socket_port"]
         address = self.config["robot_address"]

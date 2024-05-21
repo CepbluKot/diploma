@@ -7,15 +7,15 @@ from robot_modules.transceiver_modules.mqtt_sender import MQTTSender
 class GlobalTransceiver:
     def __init__(self,
                  command_data_callback,
-                 ) -> None:
+                 config: dict) -> None:
         
         self.socket_receiver = None
         self.lora_transceiver = None
         self.mqtt_sender = None
 
-        self.socket_receiver = SocketReceiver(command_data_callback)
-        self.lora_transceiver = LoRaTransceiver(command_data_callback)
-        self.mqtt_sender = MQTTSender()
+        self.socket_receiver = SocketReceiver(command_data_callback, config)
+        self.lora_transceiver = LoRaTransceiver(command_data_callback, config)
+        self.mqtt_sender = MQTTSender(config)
 
 
     def send(self, data: dict):
