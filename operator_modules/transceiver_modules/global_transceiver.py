@@ -6,17 +6,17 @@ from enum import Enum
 
     
 class ManualConnectionMethod(Enum):
-    LoRa = 'LoRa'
-    internet = 'socket'
+    LoRa = "LoRa"
+    internet = "socket"
 
 class ConnectionType(Enum):
-    LoRa = 'LoRa'
-    internet = 'socket'
-    no_connection = 'no_connection'
+    LoRa = "LoRa"
+    internet = "socket"
+    no_connection = "no_connection"
     
 class ConnectionMode(Enum):
-    auto = 'auto'
-    manual = 'manual'
+    auto = "auto"
+    manual = "manual"
 
 
 class GlobalTransceiver:
@@ -95,18 +95,18 @@ class GlobalTransceiver:
     def __change_sender_internet_state(self, internet_available):
         with self.change_sender_internet_state_lock:
             self.sender_internet_available = internet_available
-            # print('chaneg SENDER inet state to', self.sender_internet_available)
+            # print("chaneg SENDER inet state to", self.sender_internet_available)
 
     def __change_receiver_internet_state(self, internet_available):
         with self.change_receiver_internet_state_lock:
             self.receiver_internet_available = internet_available
-            # print('chaneg RECEIVER inet state to', self.receiver_internet_available)
+            # print("chaneg RECEIVER inet state to", self.receiver_internet_available)
 
 
     def __change_lora_state(self, lora_available):
         with self.change_lora_state_lock:
             self.lora_available = lora_available
-            # print('chaneg lora state to', self.lora_available)
+            # print("chaneg lora state to", self.lora_available)
             
     def __set_receiver_config(self, use_lora=None):
         if self.mqtt_receiver:
@@ -143,7 +143,7 @@ class GlobalTransceiver:
                         self.mqtt_receiver.on_encoder_msg = self.encoder_data_callback
                         self.mqtt_receiver.on_gnss_msg = self.gnss_data_callback
 
-                # print('set RECEIVER inet:', self.receiver_internet_available, use_lora)
+                # print("set RECEIVER inet:", self.receiver_internet_available, use_lora)
 
     def __set_sender_config(self):
         if self.socket_sender and self.lora_transceiver:
@@ -201,10 +201,10 @@ class GlobalTransceiver:
                 self.__set_receiver_config(use_lora=True)
 
         self.__set_sender_config()
-        print('conn mode set')
+        print("conn mode set")
 
     def send(self, data: str):
-        # print(time.time(),'sent with ', self.sender)
+        # print(time.time(),"sent with ", self.sender)
         self.sender.send(data)
 
     def mqtt_receiver_disconnect_action(self,):
@@ -243,38 +243,3 @@ class GlobalTransceiver:
         self.__change_sender_internet_state(internet_available=True)
         self.__set_sender_config()
         self.gui_socket_reconnect_callback()
-
-
-if __name__ == '__main__':
-    def nothin(non=None, ):
-        pass
-
-    trans = GlobalTransceiver( nothin,nothin,nothin,nothin,nothin,nothin,nothin,nothin, nothin, nothin,  nothin)
-    def te1():
-        while 1:
-            import time
-            time.sleep(1)
-            trans.send('amogus')
-
-    def te2():
-        while 1:
-            import time
-            print('--- changemod to intet--')
-            
-            trans.set_connection_mode(False, ManualConnectionMethod.internet)
-            time.sleep(10)
-            print('--- changemod to LORA--')
-            trans.set_connection_mode(False, ManualConnectionMethod.LoRa)
-            time.sleep(10)
-            print('--- changemod to auto--')
-            
-            trans.set_connection_mode(True)
-            time.sleep(10)
-
-
-    tre1 = threading.Thread(target=te1)
-    tre2 = threading.Thread(target=te2)
-    tre1.start()
-    tre2.start()
-    tre1.join()
-    tre2.join()

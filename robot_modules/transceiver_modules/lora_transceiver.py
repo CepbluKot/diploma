@@ -10,10 +10,10 @@ class LoRaTransceiver:
                  ) -> None:
  
         
-        self.config = json.load(open('config.json'))
+        self.config = json.load(open("config.json"))
 
-        self.sender_port = self.config['LoRa_operator_sender_port']
-        self.receiver_port = self.config['LoRa_operator_receiver_port']
+        self.sender_port = self.config["LoRa_operator_sender_port"]
+        self.receiver_port = self.config["LoRa_operator_receiver_port"]
 
         self.on_command_data = command_data_callback
 
@@ -35,25 +35,25 @@ class LoRaTransceiver:
         with self.serial_interaction_lock:
             if self.serial_sender_conn:
                 while self.serial_sender_conn.in_waiting:
-                    self.serial_sender_conn.read_until(b'\r\n')
+                    self.serial_sender_conn.read_until(b"\r\n")
                 
-                self.serial_sender_conn.write(data.encode()+b'\r')
+                self.serial_sender_conn.write(data.encode()+b"\r")
 
     def on_recv(self, data:str):
         try:
             parsed_data = json.loads(data)
 
-            if 'command' in parsed_data:
-                self.on_command_data(parsed_data['command'])
+            if "command" in parsed_data:
+                self.on_command_data(parsed_data["command"])
             
         except Exception as e:
-            print(f'error during receiving data:{e}')
+            print(f"error during receiving data:{e}")
 
     def recv_thread(self):
         while self.serial_receiver_conn.is_open:
             with self.serial_interaction_lock:
                 if self.serial_receiver_conn.in_waiting:
-                    read_data = self.serial_receiver_conn.read_until(b'\r\n')
+                    read_data = self.serial_receiver_conn.read_until(b"\r\n")
                     read_data = read_data[:-2].decode()
                     
                     # while self.serial_receiver_conn.in_waiting:
@@ -61,7 +61,7 @@ class LoRaTransceiver:
                     
                     self.on_recv(read_data)
         
-if __name__=='__main__':
+if __name__=="__main__":
     def nothin(rofl=None):
         pass
     n = LoRaTransceiver(nothin,nothin)

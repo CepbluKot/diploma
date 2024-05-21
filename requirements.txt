@@ -1,0 +1,16 @@
+fastapi==0.111.0
+matplotlib==3.8.2
+numpy==1.26.4
+opencv_contrib_python==4.9.0.80
+opencv_python==4.9.0.80
+paho_mqtt==2.1.0
+pydantic==2.7.4
+pynmea2==1.19.0
+pyPS4Controller==1.2.5
+pyPS4Controller==1.2.5
+pyserial==3.5
+Requests==2.32.3
+rplidar==0.9.2
+rplidar_roboticia==0.9.5
+tkintermapview==1.29
+uvicorn==0.30.1

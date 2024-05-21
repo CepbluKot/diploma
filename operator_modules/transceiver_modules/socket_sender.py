@@ -8,8 +8,8 @@ class SocketSender:
         
         self.config = json.load(open("config.json"))
 
-        self.address = self.config['robot_address']
-        self.port = self.config['socket_port']
+        self.address = self.config["robot_address"]
+        self.port = self.config["socket_port"]
         
         self.on_socket_connect_action = on_socket_connect_action
         self.on_socket_disconnect_action = on_socket_disconnect_action
@@ -30,7 +30,7 @@ class SocketSender:
             def send_action():
                 try:
                     self.s.sendall(data.encode())
-                    # print('sock sent')
+                    # print("sock sent")
                 except Exception:
                     self.on_socket_disconnected()
             
@@ -41,13 +41,13 @@ class SocketSender:
     def on_connect(self,):
             self.is_socket_connected = True
             self.on_socket_connect_action()
-            print('socket connected')
+            print("socket connected")
 
     def on_socket_disconnected(self):
-        print('socket disconnected')
+        print("socket disconnected")
         self.is_socket_connected = False
         self.on_socket_disconnect_action()
-        # print('sok on discon action done')
+        # print("sok on discon action done")
 
         def reconnect_procedure():
             while not self.is_socket_connected:
@@ -64,9 +64,9 @@ class SocketSender:
         reconnect_thr.daemon = True
         reconnect_thr.start()
 
-if __name__=='__main__':
+if __name__=="__main__":
     n = SocketSender()
     while 1:
         time.sleep(2)
-        n.send('wewreg')
-        # print('riidn high')
+        n.send("wewreg")
+        # print("riidn high")

@@ -1,4 +1,4 @@
-#!/home/dmitri/Documents/cod/venv/bin/python3
+#!/home/oleg/Documents/disploma_gui/venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys

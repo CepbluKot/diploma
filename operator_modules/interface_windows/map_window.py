@@ -26,9 +26,9 @@ def on_message(client, userdata, msg: mqtt.MQTTMessage):
                 old_marker.delete()
             parsed = json.loads(msg.payload)
 
-            if 'lat' in parsed and 'lon' in parsed:
+            if "lat" in parsed and "lon" in parsed:
                 if map_widget:
-                    old_marker = map_widget.set_position(parsed['lat'],parsed['lon'],marker=True)
+                    old_marker = map_widget.set_position(parsed["lat"],parsed["lon"],marker=True)
 
 
 def launch():
@@ -57,5 +57,5 @@ def launch():
     point_upd_thr.join()
 
 
-if __name__=='__main__':
+if __name__=="__main__":
     launch()

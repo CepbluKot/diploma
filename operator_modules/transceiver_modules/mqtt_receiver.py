@@ -25,8 +25,8 @@ class MQTTReceiver:
 
         self.config = json.load(open("config.json"))
 
-        self.address = self.config['robot_address']
-        self.port = self.config['MQTT_port']
+        self.address = self.config["robot_address"]
+        self.port = self.config["MQTT_port"]
 
 
         self.is_mqtt_connected = False
@@ -48,43 +48,43 @@ class MQTTReceiver:
         # self.mqtt_thread.join()
         
     def on_connect(self, client: mqtt.Client, userdata, flags, rc):
-        client.subscribe(topic=self.config['lidar_topic_pickle_format'])
-        client.subscribe(topic=self.config['depth_cam_topic_pickle_format'])
-        client.subscribe(topic=self.config['rgb_cam_topic_pickle_format'])
-        client.subscribe(topic=self.config['encoder_topic_str_format'])
-        client.subscribe(topic=self.config['gnss_topic_str_format'])
+        client.subscribe(topic=self.config["lidar_topic_pickle_format"])
+        client.subscribe(topic=self.config["depth_cam_topic_pickle_format"])
+        client.subscribe(topic=self.config["rgb_cam_topic_pickle_format"])
+        client.subscribe(topic=self.config["encoder_topic_str_format"])
+        client.subscribe(topic=self.config["gnss_topic_str_format"])
         
         self.is_mqtt_connected = True
-        print('mqtt connected')
+        print("mqtt connected")
 
     def on_message(self, client, userdata, msg: mqtt.MQTTMessage):
-        if msg.topic == self.config['lidar_topic_pickle_format']:
+        if msg.topic == self.config["lidar_topic_pickle_format"]:
             if msg.payload:
                 lidar_msg =  pickle.loads(msg.payload)
                 self.on_lidar_msg(lidar_msg)
 
-        if msg.topic == self.config['depth_cam_topic_pickle_format']:
+        if msg.topic == self.config["depth_cam_topic_pickle_format"]:
             if msg.payload:
                 depth_cam_msg =  pickle.loads(msg.payload)
                 self.on_depth_cam_msg(depth_cam_msg)
 
-        if msg.topic == self.config['rgb_cam_topic_pickle_format']:
+        if msg.topic == self.config["rgb_cam_topic_pickle_format"]:
             if msg.payload:
                 rgb_cam_msg =  pickle.loads(msg.payload)
                 self.on_rgb_cam_msg(rgb_cam_msg)
 
-        if msg.topic == self.config['encoder_topic_str_format']:
+        if msg.topic == self.config["encoder_topic_str_format"]:
             if msg.payload:
                 encoder_msg =  json.loads(msg.payload)
                 self.on_encoder_msg(encoder_msg)
 
-        if msg.topic == self.config['gnss_topic_str_format']:
+        if msg.topic == self.config["gnss_topic_str_format"]:
             if msg.payload:
                 gnss_msg =  json.loads(msg.payload)
                 self.on_gnss_msg(gnss_msg)
 
     def on_disconnect(self,client: mqtt.Client, userdata=None,  rc=None):
-        print('mqtt disconnected')
+        print("mqtt disconnected")
         self.is_mqtt_connected = False
 
         self.on_mqtt_disconnect_action()

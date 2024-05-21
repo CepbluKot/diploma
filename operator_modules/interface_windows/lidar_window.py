@@ -30,7 +30,7 @@ def on_message(client, userdata, msg: mqtt.MQTTMessage):
 
     if msg.topic == MQTT_LIDAR_TOPIC_PICKLE:
         if msg.payload:
-            # print('gotcha')
+            # print("gotcha")
             last_msg = pickle.loads(msg.payload)
 
 client = mqtt.Client()
@@ -56,8 +56,8 @@ IMAX = 50
 
 def run():
     fig = plt.figure()
-    fig.canvas.manager.set_window_title('LiDar')
-    ax = plt.subplot(111, projection='polar')
+    fig.canvas.manager.set_window_title("LiDar")
+    ax = plt.subplot(111, projection="polar")
     line = ax.scatter([0, 0], [0, 0], s=5, c=[IMIN, IMAX],
                            cmap=plt.cm.Greys_r, lw=0)
     ax.set_rmax(DMAX)
@@ -74,5 +74,5 @@ def launch():
     run()
     t1.join()
 
-if __name__=='__main__':
+if __name__=="__main__":
     launch()

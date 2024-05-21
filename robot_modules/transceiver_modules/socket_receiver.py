@@ -5,16 +5,16 @@ import socket, json
 class SocketReceiver:
     def __init__(self, on_command_recv) -> None:
         self.on_command_recv = on_command_recv
-        self.config = json.load(open('config.json'))
+        self.config = json.load(open("config.json"))
 
         self.is_socket_connected = False
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         
-        self.config = json.load(open('config.json'))
+        self.config = json.load(open("config.json"))
 
-        port = self.config['socket_port']
-        address = self.config['robot_address']
-        self.nSymbols = self.config['nSymbols']
+        port = self.config["socket_port"]
+        address = self.config["robot_address"]
+        self.nSymbols = self.config["nSymbols"]
 
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.s.bind((address, port))
@@ -41,7 +41,7 @@ class SocketReceiver:
             self.server_job()
 
 
-if __name__=='__main__':
+if __name__=="__main__":
     def donothing(msg):
-        print('lol',msg)
+        print("lol",msg)
     n = SocketReceiver(donothing)

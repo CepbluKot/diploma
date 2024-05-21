@@ -1,7 +1,11 @@
 {
+    "ds3_controller_port":"/dev/input/js0",
+
     "lidar_serial_port": "/dev/ttyUSB0",
     "gnss_serial_port": "/dev/ttyUSB1",
     "encoder_serial_port": "/dev/ttyUSB2",
+    "left_engine_control_serial_port": "/dev/ttyUSB3",
+    "right_engine_control_serial_port": "/dev/ttyUSB4",
     
     "robot_address": "127.0.0.1",
     "operator_address": "127.0.0.1",

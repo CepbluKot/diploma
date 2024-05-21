@@ -8,14 +8,14 @@ import operator_modules.frame_convert2 as frame_convert2
 import pickle
 
 
-config = json.load(open('config.json'))
-ADDRESS = config['robot_address']
-MQTT_PORT = config['MQTT_port']
+config = json.load(open("config.json"))
+ADDRESS = config["robot_address"]
+MQTT_PORT = config["MQTT_port"]
 
-MQTT_DEPTH_CAM_TOPIC_PICKLE = config['depth_cam_topic_pickle_format']
-# MQTT_DEPTH_CAM_TOPIC_STR = config['depth_cam_topic_str_format']
-MQTT_RGB_CAM_TOPIC_PICKLE = config['rgb_cam_topic_pickle_format']
-# MQTT_RGB_CAM_TOPIC_STR = config['rgb_cam_topic_str_format']
+MQTT_DEPTH_CAM_TOPIC_PICKLE = config["depth_cam_topic_pickle_format"]
+# MQTT_DEPTH_CAM_TOPIC_STR = config["depth_cam_topic_str_format"]
+MQTT_RGB_CAM_TOPIC_PICKLE = config["rgb_cam_topic_pickle_format"]
+# MQTT_RGB_CAM_TOPIC_STR = config["rgb_cam_topic_str_format"]
 
 
 depth_msg = []
@@ -23,7 +23,7 @@ rgb_msg = []
 
 
 def on_connect_depth(client: mqtt.Client, userdata, flags, rc):
-    print('Connected with result code ' + str(rc))
+    print("Connected with result code " + str(rc))
     client.subscribe(topic=MQTT_DEPTH_CAM_TOPIC_PICKLE)
     client.subscribe(topic=MQTT_RGB_CAM_TOPIC_PICKLE)
 
@@ -61,8 +61,8 @@ def run():
             except:
                 pass
             
-        cv2.imshow('Depth', depth)
-        cv2.imshow('RGB', rgb)
+        cv2.imshow("Depth", depth)
+        cv2.imshow("RGB", rgb)
 
         cv2.waitKey(1000)
 
@@ -72,5 +72,5 @@ def launch():
     run()
     t1.join()
 
-if __name__=='__main__':
+if __name__=="__main__":
     launch()

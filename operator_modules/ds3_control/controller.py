@@ -1,21 +1,6 @@
 from pyPS4Controller.controller import Controller
-import threading, time, pydantic
-from enum import Enum
-
-
-class MoveType(Enum,):
-    forward = 'forward'
-    backward = 'backward'
-    stop = 'stop'
-
-
-class Dir(pydantic.BaseModel):
-    direction: MoveType
-
-
-class EngineCommand(pydantic.BaseModel):
-    left: Dir
-    right: Dir
+import threading, time, json
+from data_formats.control_command import ControlCommand, Direction, MoveType
 
 
 class MyController(Controller):
@@ -55,8 +40,8 @@ class MyController(Controller):
             
 
             if new_command:
-                new_command_obj = EngineCommand(left=Dir(direction=new_command[0]),
-                                                right=Dir(direction=new_command[1]),
+                new_command_obj = ControlCommand(left=Direction(direction=new_command[0]),
+                                                right=Direction(direction=new_command[1]),
                                                 )
                 time.sleep(0.2)
                 self.send_json_command( new_command_obj.json())
@@ -128,31 +113,19 @@ class MyController(Controller):
                     self.last_cmd = (left_cmd, right_cmd)
                     self.__add_command((left_cmd, right_cmd))
             else:
-                self.__add_command(('stop', 'stop'))
+                self.__add_command(("stop", "stop"))
 
         else:
-            self.__add_command(('stop', 'stop'))
+            self.__add_command(("stop", "stop"))
 
 
 def run(send_json_command):
-    controller = MyController(interface='/dev/input/js0', connecting_using_ds4drv=False, send_json_command=send_json_command)
+    config = json.load(open("config.json"))
+
+    controller = MyController(interface=config["ds3_controller_port"], connecting_using_ds4drv=False, send_json_command=send_json_command)
     def controller_work_thr():
         controller.listen(timeout=60)
 
     th1 = threading.Thread(target=controller_work_thr)
     th1.daemon = True
     th1.start()
-
-
-if __name__ == '__main__':
-    def noy():
-        pass
-    controller = MyController(interface='/dev/input/js0', connecting_using_ds4drv=False, send_json_command=noy)
-
-    def controller_work_thr():
-        controller.listen(timeout=60)
-
-    th1 = threading.Thread(target=controller_work_thr)
-
-    th1.start()
-    th1.join()

@@ -18,15 +18,15 @@ from serial_readers.gnss_reader import run as gnss_run
 def open_map_window():
     # Create secondary (or popup) window.
     secondary_window = Toplevel()
-    secondary_window.title('GNSS')
+    secondary_window.title("GNSS")
     secondary_window.config(width=500, height=500)
     
     old_marker = None
 
 
     map_widget = tkintermapview.TkinterMapView(secondary_window, width=500, height=500, corner_radius=0)
-    map_widget.pack(fill='both', expand=True)
-    map_widget.set_tile_server('https://mt0.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}&s=Ga', max_zoom=22)  # google satellite
+    map_widget.pack(fill="both", expand=True)
+    map_widget.set_tile_server("https://mt0.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}&s=Ga", max_zoom=22)  # google satellite
     map_widget.set_position(56.255518, 38.467219, marker=True)
 
     def change_pos(lat, lon):
@@ -39,17 +39,17 @@ def open_map_window():
 
 def init_gui():
     window = Tk()
-    window.title('Robot control app')
-    window.geometry('1500x500')
+    window.title("Robot control app")
+    window.geometry("1500x500")
     
     tab_control = Notebook(window)  
     tab1 = Frame(tab_control)  
     tab2 = Frame(tab_control)
     
-    tab_control.add(tab1, text='Управление')  
-    tab_control.add(tab2, text='Подключение')
+    tab_control.add(tab1, text="Управление")  
+    tab_control.add(tab2, text="Подключение")
 
-    tab_control.pack(expand=1, fill='both')  
+    tab_control.pack(expand=1, fill="both")  
 
     conn_status_indicator = controls_tab(tab1)
     
@@ -65,28 +65,28 @@ def init_gui():
         pass
     
     def gui_socket_connect_callback():
-        connection_status_internet_param_label.configure(text='подключено',
-                                                         background='green')
+        connection_status_internet_param_label.configure(text="подключено",
+                                                         background="green")
 
     def gui_socket_disconnect_callback():
-        connection_status_internet_param_label.configure(text='нет подключения',
-                                                         background='red')
+        connection_status_internet_param_label.configure(text="нет подключения",
+                                                         background="red")
     
     def gui_socket_reconnect_callback():
-        connection_status_internet_param_label.configure(text='подключено',
-                                                         background='green')
+        connection_status_internet_param_label.configure(text="подключено",
+                                                         background="green")
             
     def gui_lora_disconnect_callback():
-        connection_status_lora_param_label.configure(text='нет подключения',
-                                                    background='red')
+        connection_status_lora_param_label.configure(text="нет подключения",
+                                                    background="red")
     
     def gui_lora_reconnect_callback():
-        connection_status_lora_param_label.configure(text='подключено',
-                                                    background='green')
+        connection_status_lora_param_label.configure(text="подключено",
+                                                    background="green")
 
     def gui_lora_connect_callback():
-        connection_status_lora_param_label.configure(text='подключено',
-                                                    background='green')
+        connection_status_lora_param_label.configure(text="подключено",
+                                                    background="green")
 
 
     trans = GlobalTransceiver(nothin,
@@ -109,9 +109,9 @@ def init_gui():
         nonlocal trans
         new_conn_type = connection_method_param.get()
 
-        if new_conn_type == 'LoRa':
+        if new_conn_type == "LoRa":
             trans.set_connection_mode(False, ManualConnectionMethod.LoRa)
-        elif new_conn_type == 'socket':
+        elif new_conn_type == "socket":
             trans.set_connection_mode(False, ManualConnectionMethod.internet)
 
 
@@ -127,23 +127,23 @@ def init_gui():
             time.sleep(1)
             curr_conn_type = trans.get_curr_connection_type()
             
-            if curr_conn_type.value == 'LoRa':
-                conn_status_indicator.config(background='green')
-                conn_status_indicator.config(text='LoRa')
+            if curr_conn_type.value == "LoRa":
+                conn_status_indicator.config(background="green")
+                conn_status_indicator.config(text="LoRa")
 
-            elif curr_conn_type.value == 'socket':
-                conn_status_indicator.config(background='green')
-                conn_status_indicator.config(text='internet/LAN')
+            elif curr_conn_type.value == "socket":
+                conn_status_indicator.config(background="green")
+                conn_status_indicator.config(text="internet/LAN")
 
             else:
-                conn_status_indicator.config(background='red')
-                conn_status_indicator.config(text='нет подключения')
+                conn_status_indicator.config(background="red")
+                conn_status_indicator.config(text="нет подключения")
 
     def test_sender(): 
         while 1:
             if trans:
                 time.sleep(1)
-                trans.send('elloy')
+                trans.send("elloy")
 
     ds3_run(trans.send)
  

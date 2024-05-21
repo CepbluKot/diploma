@@ -18,24 +18,24 @@ class GlobalTransceiver:
         self.mqtt_sender = MQTTSender()
 
 
-    def send(self, data: str):
+    def send(self, data: dict):
         try:
             self.lora_transceiver.send(data)
             
-            if 'depth_cam' in data:
-                self.mqtt_sender.send_depth_cam_data(data['depth_cam'])
+            if "depth_cam" in data:
+                self.mqtt_sender.send_depth_cam_data(data["depth_cam"])
 
-            if 'rgb_cam' in data:
-                self.mqtt_sender.send_rgb_cam_data(data['rgb_cam'])
+            if "rgb_cam" in data:
+                self.mqtt_sender.send_rgb_cam_data(data["rgb_cam"])
 
-            if 'encoder' in data:
-                self.mqtt_sender.send_encoder_data(data['encoder'])
+            if "encoder" in data:
+                self.mqtt_sender.send_encoder_data(data["encoder"])
 
-            if 'gnss' in data:
-                self.mqtt_sender.send_gnss_data(data['gnss'])
+            if "gnss" in data:
+                self.mqtt_sender.send_gnss_data(data["gnss"])
 
-            if 'lidar' in data:
-                self.mqtt_sender.send_lidar_data(data['lidar'])
+            if "lidar" in data:
+                self.mqtt_sender.send_lidar_data(data["lidar"])
         
         except Exception as e:
-            print(f'error during sending: {e}')
+            print(f"error during sending: {e}")

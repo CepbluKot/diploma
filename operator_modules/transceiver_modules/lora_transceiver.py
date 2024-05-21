@@ -14,10 +14,10 @@ class LoRaTransceiver:
                  ) -> None:
  
         
-        self.config = json.load(open('config.json'))
+        self.config = json.load(open("config.json"))
 
-        self.sender_port = self.config['LoRa_robot_sender_port']
-        self.receiver_port = self.config['LoRa_robot_receiver_port']
+        self.sender_port = self.config["LoRa_robot_sender_port"]
+        self.receiver_port = self.config["LoRa_robot_receiver_port"]
 
         self.on_encoder_data = encoder_data_callback
         self.on_gnss_data = gnss_data_callback
@@ -45,9 +45,9 @@ class LoRaTransceiver:
         with self.serial_interaction_lock:
             if self.serial_sender_conn:
                 while self.serial_sender_conn.in_waiting:
-                    self.serial_sender_conn.read_until(b'\r\n')
+                    self.serial_sender_conn.read_until(b"\r\n")
                 
-                self.serial_sender_conn.write(data.encode()+b'\r')
+                self.serial_sender_conn.write(data.encode()+b"\r")
 
 
     def on_connect(self,):
@@ -63,21 +63,21 @@ class LoRaTransceiver:
         try:
             parsed_data = json.loads(data)
 
-            if 'encoder_data' in parsed_data:
-                self.on_encoder_data(parsed_data['encoder_data'])
+            if "encoder_data" in parsed_data:
+                self.on_encoder_data(parsed_data["encoder_data"])
             
-            if 'gnss_data' in parsed_data:
-                self.on_gnss_data(parsed_data['gnss_data'])
+            if "gnss_data" in parsed_data:
+                self.on_gnss_data(parsed_data["gnss_data"])
 
         except Exception as e:
-            print(f'error during receiving data:{e}')
+            print(f"error during receiving data:{e}")
 
     def recv_thread(self, conn_timeout: int):
         start_wait_time = time.time()
         while self.serial_receiver_conn.is_open:
             with self.serial_interaction_lock:
                 if self.serial_receiver_conn.in_waiting:
-                    read_data = self.serial_receiver_conn.read_until(b'\r\n')
+                    read_data = self.serial_receiver_conn.read_until(b"\r\n")
                     read_data = read_data[:-2].decode()
                     
                     # while self.serial_receiver_conn.in_waiting:
