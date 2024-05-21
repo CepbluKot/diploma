@@ -4,6 +4,7 @@
     "lidar_serial_port": "/dev/ttyUSB0",
     "gnss_serial_port": "/dev/ttyUSB1",
     "encoder_serial_port": "/dev/ttyUSB2",
+    "temp_hum_serial_port": "/dev/ttyUSB5",
     "left_engine_control_serial_port": "/dev/ttyUSB3",
     "right_engine_control_serial_port": "/dev/ttyUSB4",
     

@@ -27,3 +27,6 @@ class MoveControl():
         command = ControlCommand.parse_raw(raw_command)
         self.left_engine_control.send(command.left.direction)
         self.right_engine_control.send(command.right.direction)
+
+
+move_control = MoveControl()
