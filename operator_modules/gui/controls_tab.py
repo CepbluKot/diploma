@@ -51,7 +51,7 @@ def controls_tab(frame):
     
     lat_value_field = Label(master=frame, text=str(None), background="white")
     lat_value_field.grid(row=2, column=4+1, padx=5, pady=5)
-    lat_value_field.config(text=56.255518)
+
 
     lon_label = Label(master=frame, text="Долгота", background="white")
     lon_label.grid(row=3, column=4, padx=(100, 10), pady=10)
@@ -59,7 +59,6 @@ def controls_tab(frame):
 
     lon_value_field = Label(master=frame, text=str(None), background="white")
     lon_value_field.grid(row=3, column=4+1, padx=5, pady=5)
-    lon_value_field.config(text=38.467219)
 
     
     speed_label = Label(master=frame, text="Скорость (км/ч)", background="white")
@@ -67,14 +66,14 @@ def controls_tab(frame):
 
     speed_value_field = Label(master=frame, text=str(None), background="white")
     speed_value_field.grid(row=4, column=4+1, padx=5, pady=5)
-    speed_value_field.config(text="0")
+
 
     track_label = Label(master=frame, text="Курс", background="white")
     track_label.grid(row=5, column=4, padx=(100, 10), pady=10)
 
     track_value_field = Label(master=frame, text=str(None), background="white")
     track_value_field.grid(row=5, column=4+1, padx=5, pady=5)
-    track_value_field.configure(text="23")
+
 
     # --- temp and hum data fields ---
 
@@ -87,14 +86,14 @@ def controls_tab(frame):
 
     temp_value_field = Label(master=frame, text=str(None), background="white")
     temp_value_field.grid(row=2, column=6+1, padx=10, pady=5)
-    temp_value_field.configure(text="20")
+
 
     hum_label = Label(master=frame, text="Влага", background="white")
     hum_label.grid(row=3, column=6, padx=(100, 10), pady=10)
     
     hum_value_field = Label(master=frame, text=str(None), background="white")
     hum_value_field.grid(row=3, column=6+1, padx=10, pady=5)
-    hum_value_field.configure(text="50")
+
     
 
     # --- encoders fields ---
@@ -107,7 +106,7 @@ def controls_tab(frame):
     
     left_eng_encoder_value_field = Label(master=frame, text=str(None), background="white")
     left_eng_encoder_value_field.grid(row=2, column=8+1, padx=10, pady=5)
-    left_eng_encoder_value_field.configure(text=str(randint(1000, 2000)))
+
 
 
     right_eng_label = Label(master=frame, text="Правый двигатель", background="white")
@@ -115,7 +114,7 @@ def controls_tab(frame):
     
     right_eng_encoder_value_field = Label(master=frame, text=str(None), background="white")
     right_eng_encoder_value_field.grid(row=3, column=8+1, padx=10, pady=5)
-    right_eng_encoder_value_field.configure(text=str(randint(1000, 2000)))
+    
 
     # --- connection type indicator ---
 
@@ -125,4 +124,19 @@ def controls_tab(frame):
     conn_status_indicator = Label(master=frame, text=str(None), background="white")
     conn_status_indicator.grid(row=6, column=9, )
 
-    return conn_status_indicator
+    return (btn_move_forward_left_eng,
+            btn_stop_left_eng,
+            btn_move_backward_left_eng,
+            btn_move_forward_right_eng,
+            btn_stop_right_eng,
+            btn_move_backward_right_eng,
+            btn_stop_full,
+            lat_value_field,
+            lon_value_field,
+            speed_value_field,
+            track_value_field,
+            temp_value_field,
+            hum_value_field,
+            left_eng_encoder_value_field,
+            right_eng_encoder_value_field,
+            conn_status_indicator)

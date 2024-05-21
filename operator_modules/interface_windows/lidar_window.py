@@ -1,43 +1,15 @@
-import matplotlib.pyplot as plt
-import numpy as np
-import matplotlib.animation as animation
-import paho.mqtt.client as mqtt
-import json
-import matplotlib.pyplot as plt
-import numpy as np
-import matplotlib.animation as animation
-import threading
 import pickle
-
-
-config = json.load(open("config.json"))
-ADDRESS = config["robot_address"]
-MQTT_PORT = config["MQTT_port"]
-
-MQTT_LIDAR_TOPIC_PICKLE = config["lidar_topic_pickle_format"]
-# MQTT_LIDAR_TOPIC_STR = config["lidar_topic_str_format"]
+import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib.animation as animation
 
 
 last_msg = []
 
-def on_connect(client: mqtt.Client, userdata, flags, rc):
-    print("Connected with result code " + str(rc))
-    client.subscribe(topic=MQTT_LIDAR_TOPIC_PICKLE)
 
-
-def on_message(client, userdata, msg: mqtt.MQTTMessage):
+def on_new_data(data):
     global last_msg
-
-    if msg.topic == MQTT_LIDAR_TOPIC_PICKLE:
-        if msg.payload:
-            # print("gotcha")
-            last_msg = pickle.loads(msg.payload)
-
-client = mqtt.Client()
-client.on_connect = on_connect
-client.on_message = on_message
-client.connect(ADDRESS, MQTT_PORT, 60)
-
+    last_msg = pickle.loads(data)
 
 
 def update_line(num, iterator, line):
@@ -67,12 +39,3 @@ def run():
         fargs=( iterator, line), interval=50)
     
     plt.show()
-
-def launch():
-    t1 = threading.Thread(target=client.loop_forever)
-    t1.start()
-    run()
-    t1.join()
-
-if __name__=="__main__":
-    launch()

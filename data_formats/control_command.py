@@ -9,7 +9,7 @@ class MoveType(Enum,):
     stop = "stop"
 
 class Direction(pydantic.BaseModel):
-    direction: Optional[MoveType] = None
+    direction: Optional[MoveType] = MoveType.stop
 
 class ControlCommand(pydantic.BaseModel):
     left: Optional[Direction] = None

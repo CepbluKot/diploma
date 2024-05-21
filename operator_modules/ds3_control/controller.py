@@ -3,7 +3,7 @@ import threading, time, json
 from data_formats.control_command import ControlCommand, Direction, MoveType
 
 
-class MyController(Controller):
+class DS3Controller(Controller):
     def __init__(self, send_json_command, **kwargs):
         Controller.__init__(self, **kwargs)
         
@@ -122,7 +122,7 @@ class MyController(Controller):
 def run(send_json_command):
     config = json.load(open("config.json"))
 
-    controller = MyController(interface=config["ds3_controller_port"], connecting_using_ds4drv=False, send_json_command=send_json_command)
+    controller = DS3Controller(interface=config["ds3_controller_port"], connecting_using_ds4drv=False, send_json_command=send_json_command)
     def controller_work_thr():
         controller.listen(timeout=60)
 

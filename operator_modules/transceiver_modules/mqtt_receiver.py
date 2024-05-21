@@ -9,6 +9,7 @@ class MQTTReceiver:
                  rgb_cam_topic_callback,
                  encoder_topic_callback,
                  gnss_topic_callback,
+                 temp_hum_topic_callback,
                  on_mqtt_disconnect_action,
                  on_mqtt_reconnect_action
                  ) -> None:
@@ -19,6 +20,7 @@ class MQTTReceiver:
         self.on_rgb_cam_msg = rgb_cam_topic_callback
         self.on_encoder_msg = encoder_topic_callback
         self.on_gnss_msg = gnss_topic_callback
+        self.on_temp_hum_msg = temp_hum_topic_callback
 
         self.on_mqtt_disconnect_action = on_mqtt_disconnect_action
         self.on_mqtt_reconnect_action = on_mqtt_reconnect_action
@@ -53,35 +55,34 @@ class MQTTReceiver:
         client.subscribe(topic=self.config["rgb_cam_topic_pickle_format"])
         client.subscribe(topic=self.config["encoder_topic_str_format"])
         client.subscribe(topic=self.config["gnss_topic_str_format"])
-        
+        client.subscribe(topic=self.config["temp_hum_topic_str_format"])
+
         self.is_mqtt_connected = True
-        print("mqtt connected")
 
     def on_message(self, client, userdata, msg: mqtt.MQTTMessage):
         if msg.topic == self.config["lidar_topic_pickle_format"]:
             if msg.payload:
-                lidar_msg =  pickle.loads(msg.payload)
-                self.on_lidar_msg(lidar_msg)
+                self.on_lidar_msg(json.loads(msg.payload))
 
         if msg.topic == self.config["depth_cam_topic_pickle_format"]:
             if msg.payload:
-                depth_cam_msg =  pickle.loads(msg.payload)
-                self.on_depth_cam_msg(depth_cam_msg)
+                self.on_depth_cam_msg(json.loads(msg.payload))
 
         if msg.topic == self.config["rgb_cam_topic_pickle_format"]:
             if msg.payload:
-                rgb_cam_msg =  pickle.loads(msg.payload)
-                self.on_rgb_cam_msg(rgb_cam_msg)
+                self.on_rgb_cam_msg(json.loads(msg.payload))
 
         if msg.topic == self.config["encoder_topic_str_format"]:
             if msg.payload:
-                encoder_msg =  json.loads(msg.payload)
-                self.on_encoder_msg(encoder_msg)
+                self.on_encoder_msg(json.loads(msg.payload))
 
         if msg.topic == self.config["gnss_topic_str_format"]:
             if msg.payload:
-                gnss_msg =  json.loads(msg.payload)
-                self.on_gnss_msg(gnss_msg)
+                self.on_gnss_msg(json.loads(msg.payload))
+
+        if msg.topic == self.config['temp_hum_topic_str_format']:
+            if msg.payload:
+                self.on_temp_hum_msg(json.loads(msg.payload))
 
     def on_disconnect(self,client: mqtt.Client, userdata=None,  rc=None):
         print("mqtt disconnected")

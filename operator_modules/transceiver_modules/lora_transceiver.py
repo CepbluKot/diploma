@@ -8,6 +8,7 @@ class LoRaTransceiver:
     def __init__(self,
                  encoder_data_callback,
                  gnss_data_callback,
+                 temp_hum_data_callback,
                  on_lora_connect_action,
                  on_lora_disconnect_action,
                  on_lora_reconnect_action,
@@ -21,7 +22,8 @@ class LoRaTransceiver:
 
         self.on_encoder_data = encoder_data_callback
         self.on_gnss_data = gnss_data_callback
-        
+        self.on_temp_hum_data = temp_hum_data_callback
+
         self.on_lora_connect_action = on_lora_connect_action
         self.on_lora_disconnect_action = on_lora_disconnect_action
         self.on_lora_reconnect_action = on_lora_reconnect_action
@@ -77,6 +79,9 @@ class LoRaTransceiver:
             
             if "gnss_data" in parsed_data:
                 self.on_gnss_data(parsed_data["gnss_data"])
+
+            if "temp_hum_data" in parsed_data:
+                self.on_temp_hum_data(parsed_data["temp_hum_data"])
 
         except Exception as e:
             print(f"error during receiving data:{e}")

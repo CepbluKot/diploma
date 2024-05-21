@@ -39,8 +39,8 @@
     "rgb_cam_topic_str_format": "data/rgb_cam_str",
 
     "encoder_topic_str_format": "data/encoder_str",
-
     "gnss_topic_str_format": "data/gnss_str",
+    "temp_hum_topic_str_format": "data/temp_hum_str",
 
     "nSymbols": 8192
 }

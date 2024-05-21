@@ -1,9 +1,6 @@
-import serial.tools.list_ports
-import typing
 from tkinter import *
-from tkinter.ttk import Combobox
 # from gui.controls_tab import conn_type_indicator
-from transceiver_modules.global_transceiver import ManualConnectionMethod
+from operator_modules.transceiver_modules.global_transceiver import ManualConnectionMethod
 
 
 def connection_config_tab(frame):
