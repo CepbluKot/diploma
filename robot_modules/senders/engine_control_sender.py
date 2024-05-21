@@ -11,10 +11,16 @@ class EngineControlSender:
         self.baudrate = 9600
 
         self.serial_engine_control_conn = None
-        self.serial_engine_control_conn = serial.Serial(self.engine_control_port, self.baudrate)
+
+        try:
+            self.serial_engine_control_conn = serial.Serial(self.engine_control_port, self.baudrate)
+        except Exception:
+            pass
+
 
     def send(self, data: str):
-        self.serial_engine_control_conn.write((data).encode()+b"\r")
+        if self.serial_engine_control_conn:
+            self.serial_engine_control_conn.write((data).encode()+b"\r")
 
 
 class MoveControl():

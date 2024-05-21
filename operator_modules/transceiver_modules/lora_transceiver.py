@@ -31,11 +31,20 @@ class LoRaTransceiver:
         self.serial_interaction_lock = threading.Lock()
 
         self.serial_sender_conn = None
-        self.serial_sender_conn = serial.Serial(self.sender_port, self.baudrate)
-        
+
+        try:
+            self.serial_sender_conn = serial.Serial(self.sender_port, self.baudrate)
+        except Exception:
+            pass
+
+
         self.serial_receiver_conn = None
-        self.serial_receiver_conn = serial.Serial(self.receiver_port, self.baudrate)
-        
+
+        try:
+            self.serial_receiver_conn = serial.Serial(self.receiver_port, self.baudrate)
+        except Exception:
+            pass
+
         self.read_thr = threading.Thread(target=self.recv_thread, args=(10, ))
         self.read_thr.daemon = True
         self.read_thr.start()
@@ -74,7 +83,7 @@ class LoRaTransceiver:
 
     def recv_thread(self, conn_timeout: int):
         start_wait_time = time.time()
-        while self.serial_receiver_conn.is_open:
+        while self.serial_receiver_conn and self.serial_receiver_conn.is_open:
             with self.serial_interaction_lock:
                 if self.serial_receiver_conn.in_waiting:
                     read_data = self.serial_receiver_conn.read_until(b"\r\n")
@@ -95,7 +104,9 @@ class LoRaTransceiver:
                         
                         while not self.is_lora_connected:
                             try:
-                                if self.serial_receiver_conn.in_waiting:
+                                if self.serial_receiver_conn and \
+                                   self.serial_receiver_conn.in_waiting:
+                                   
                                     self.on_connect()
 
                             except Exception as e:
@@ -112,11 +123,15 @@ class LoRaTransceiver:
             while not self.is_lora_connected:
                 try:
                     time.sleep(0.1)
-                    while not self.serial_receiver_conn.is_open:
+                    while self.serial_receiver_conn and \
+                        not self.serial_receiver_conn.is_open:
+                        
                         self.serial_receiver_conn.close()
                         self.serial_receiver_conn = serial.Serial(self.port, self.baudrate)
 
-                    if self.serial_receiver_conn.in_waiting:
+                    if self.serial_receiver_conn and \
+                       self.serial_receiver_conn.in_waiting:
+                       
                         self.on_connect()
 
                 except Exception as e:

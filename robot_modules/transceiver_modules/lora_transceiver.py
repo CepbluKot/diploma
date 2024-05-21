@@ -19,11 +19,20 @@ class LoRaTransceiver:
         self.serial_interaction_lock = threading.Lock()
 
         self.serial_sender_conn = None
-        self.serial_sender_conn = serial.Serial(self.sender_port, self.baudrate)
         
+        try:
+            self.serial_sender_conn = serial.Serial(self.sender_port, self.baudrate)
+        except Exception:
+            pass
+
+
         self.serial_receiver_conn = None
-        self.serial_receiver_conn = serial.Serial(self.receiver_port, self.baudrate)
         
+        try:
+            self.serial_receiver_conn = serial.Serial(self.receiver_port, self.baudrate)
+        except Exception:
+            pass
+
         self.read_thr = threading.Thread(target=self.recv_thread, args=(10, ))
         self.read_thr.daemon = True
         self.read_thr.start()
@@ -47,7 +56,7 @@ class LoRaTransceiver:
             print(f"error during receiving data:{e}")
 
     def recv_thread(self):
-        while self.serial_receiver_conn.is_open:
+        while self.serial_receiver_conn and self.serial_receiver_conn.is_open:
             with self.serial_interaction_lock:
                 if self.serial_receiver_conn.in_waiting:
                     read_data = self.serial_receiver_conn.read_until(b"\r\n")

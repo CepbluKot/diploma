@@ -23,6 +23,11 @@
 
     "lidar_data_router": "/lidar",
     "depth_cam_data_router": "/depth_cam",
+    "rgb_cam_data_router": "/rgb_cam",
+    "temp_hum_data_router": "/temp_hum",
+    "gnss_data_router": "/gnss",
+    "encoders_data_router": "/engine_encoders",
+    "command_data_router": "/engine_command",
     
     "lidar_topic_pickle_format": "data/lidar_pickle",
     "lidar_topic_str_format": "data/lidar_str",
@@ -35,5 +40,7 @@
 
     "encoder_topic_str_format": "data/encoder_str",
 
-    "gnss_topic_str_format": "data/gnss_str"
+    "gnss_topic_str_format": "data/gnss_str",
+
+    "nSymbols": 8192
 }

@@ -1,6 +1,5 @@
-import threading
 from robot_modules.transceiver_modules.socket_receiver import SocketReceiver
-from transceiver_modules.lora_transceiver import LoRaTransceiver
+from robot_modules.transceiver_modules.lora_transceiver import LoRaTransceiver
 from robot_modules.transceiver_modules.mqtt_sender import MQTTSender
 
 

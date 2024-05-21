@@ -1,7 +1,6 @@
 import pydantic
 from typing import Optional
-from control_command import ControlCommand
-from temp_hum_data import TempHumData
+from data_formats.control_command import ControlCommand
 from numpy import ndarray
 
 
@@ -13,5 +12,9 @@ class AllData(pydantic.BaseModel):
     rgb_cam_data: Optional[ndarray] = None
     encoder_data: Optional[str] = None
     temp_hum_data: Optional[str] = None
+
+
+    class Config:
+        arbitrary_types_allowed = True
 
 all_data = AllData()

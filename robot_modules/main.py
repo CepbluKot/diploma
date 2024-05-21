@@ -2,16 +2,16 @@ import threading
 import uvicorn
 import json
 from numpy import ndarray
-from transceiver_modules.global_transceiver import GlobalTransceiver
-from senders.engine_control_sender import move_control
-from readers.launch_all_readers import AllReaders
+from robot_modules.transceiver_modules.global_transceiver import GlobalTransceiver
+from robot_modules.senders.engine_control_sender import move_control
+from robot_modules.readers.launch_all_readers import AllReaders
+from robot_modules.rest_api.app import app
 
 from data_formats.all_data import all_data
 from data_formats.control_command import ControlCommand
-from rest_api.app import app
 
 
-if __name__ == "__main__":
+def main():
     config = json.load(open("config.json"))
     
 

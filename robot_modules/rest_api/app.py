@@ -9,7 +9,7 @@ from data_formats.temp_hum_data import TempHumData
 from data_formats.gnss_data import GNSSData
 from data_formats.encoder_data import EngineEncoderData
 from data_formats.control_command import ControlCommand
-from senders.engine_control_sender import move_control
+from robot_modules.senders.engine_control_sender import move_control
 
 
 config = json.load(open("config.json"))

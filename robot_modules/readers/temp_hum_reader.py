@@ -12,14 +12,18 @@ class TempHumReader:
         self.baudrate = 9600
 
         self.serial_temp_hum_conn = None
-        self.serial_temp_hum_conn = serial.Serial(self.temp_hum_port, self.baudrate)
+
+        try:
+            self.serial_temp_hum_conn = serial.Serial(self.temp_hum_port, self.baudrate)
+        except Exception:
+            pass
 
         self.read_thr = threading.Thread(target=self.recv_thr, args=(10, ))
         self.read_thr.daemon = True
         self.read_thr.start()
 
     def recv_thr(self):
-        while self.serial_temp_hum_conn.is_open:
+        while self.serial_temp_hum_conn and self.serial_temp_hum_conn.is_open:
             if self.serial_temp_hum_conn.in_waiting:
                 read_data = self.serial_temp_hum_conn.read_until(b"\r\n")
                 read_data = read_data[:-2].decode()

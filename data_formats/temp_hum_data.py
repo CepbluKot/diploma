@@ -1,6 +1,7 @@
+from typing import Optional
 import pydantic
 
 
 class TempHumData(pydantic.BaseModel):
-    temperature: float
-    humidity: float
+    temperature: Optional[float] = -1
+    humidity: Optional[float] = -1

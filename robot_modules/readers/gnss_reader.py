@@ -15,8 +15,12 @@ class GNSSReader:
         self.baudrate = 9600
 
         self.serial_gnss_conn = None
-        self.serial_gnss_conn = serial.Serial(self.gnss_port, self.baudrate)
-        
+
+        try:
+            self.serial_gnss_conn = serial.Serial(self.gnss_port, self.baudrate)
+        except Exception:
+            pass
+
         self.global_gnss_data = GNSSData()
 
         self.read_thr = threading.Thread(target=self.recv_job, args=(10, ))
@@ -24,7 +28,7 @@ class GNSSReader:
         self.read_thr.start()
 
     def recv_job(self):
-        while self.serial_gnss_conn.is_open and self.read_thr.is_alive():
+        while self.serial_gnss_conn and self.serial_gnss_conn.is_open and self.read_thr.is_alive():
             parsed = pynmea2.parse(self.serial_gnss_conn.readline().decode("utf-8"))
             
             if isinstance(parsed, pynmea2.types.talker.VTG):

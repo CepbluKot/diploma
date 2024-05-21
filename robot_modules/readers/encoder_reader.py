@@ -12,14 +12,18 @@ class EncoderReader:
         self.baudrate = 9600
 
         self.serial_encoder_conn = None
-        self.serial_encoder_conn = serial.Serial(self.encoder_port, self.baudrate)
+        
+        try:
+            self.serial_encoder_conn = serial.Serial(self.encoder_port, self.baudrate)
+        except Exception:
+            pass
 
         self.read_thr = threading.Thread(target=self.recv_thr, args=(10, ))
         self.read_thr.daemon = True
         self.read_thr.start()
 
     def recv_thr(self):
-        while self.serial_encoder_conn.is_open:
+        while self.serial_encoder_conn and self.serial_encoder_conn.is_open:
             if self.serial_encoder_conn.in_waiting:
                 read_data = self.serial_encoder_conn.read_until(b"\r\n")
                 read_data = read_data[:-2].decode()
