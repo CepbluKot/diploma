@@ -1,6 +1,7 @@
 from robot_modules.transceiver_modules.socket_receiver import SocketReceiver
 from robot_modules.transceiver_modules.lora_transceiver import LoRaTransceiver
 from robot_modules.transceiver_modules.mqtt_sender import MQTTSender
+from data_formats.all_data import AllData, LoraData
 
 
 class GlobalTransceiver:
@@ -17,24 +18,28 @@ class GlobalTransceiver:
         self.mqtt_sender = MQTTSender(config)
 
 
-    def send(self, data: dict):
+    def send(self, data: AllData):
         try:
-            self.lora_transceiver.send(data)
+
+            self.lora_transceiver.send(LoraData(data.dict()).json())
             
-            if "depth_cam" in data:
-                self.mqtt_sender.send_depth_cam_data(data["depth_cam"])
+            if data.depth_cam_data is not None:
+                self.mqtt_sender.send_depth_cam_data(data.depth_cam_data)
 
-            if "rgb_cam" in data:
-                self.mqtt_sender.send_rgb_cam_data(data["rgb_cam"])
+            if data.rgb_cam_data is not None:
+                self.mqtt_sender.send_rgb_cam_data(data.rgb_cam_data)
 
-            if "encoder" in data:
-                self.mqtt_sender.send_encoder_data(data["encoder"])
+            if data.encoder_data is not None:
+                self.mqtt_sender.send_encoder_data(data.encoder_data.json())
 
-            if "gnss" in data:
-                self.mqtt_sender.send_gnss_data(data["gnss"])
+            if data.gnss_data is not None:
+                self.mqtt_sender.send_gnss_data(data.gnss_data.json())
 
-            if "lidar" in data:
-                self.mqtt_sender.send_lidar_data(data["lidar"])
-        
+            if data.lidar_data is not None:
+                self.mqtt_sender.send_lidar_data(data.lidar_data)
+
+            if data.temp_hum_data is not None:
+                self.mqtt_sender.send_temp_hum_data(data.temp_hum_data.json())
+
         except Exception as e:
             print(f"error during sending: {e}")

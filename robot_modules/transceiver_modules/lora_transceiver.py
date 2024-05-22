@@ -1,6 +1,5 @@
-import json, pickle, threading, time, requests
-import paho.mqtt.client as mqtt
-import socket, json, serial
+import json, threading
+import json, serial
 import serial.serialutil
 
 
@@ -50,8 +49,8 @@ class LoRaTransceiver:
             parsed_data = json.loads(data)
 
             if "command" in parsed_data:
-                self.on_command_data(parsed_data["command"])
-            
+                self.on_command_data(parsed_data["command"])     
+
         except Exception as e:
             print(f"error during receiving data:{e}")
 

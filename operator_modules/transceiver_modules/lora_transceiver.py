@@ -17,8 +17,8 @@ class LoRaTransceiver:
         
         self.config = json.load(open("config.json"))
 
-        self.sender_port = self.config["LoRa_robot_sender_port"]
-        self.receiver_port = self.config["LoRa_robot_receiver_port"]
+        self.sender_port = self.config["LoRa_operator_sender_port"]
+        self.receiver_port = self.config["LoRa_operator_receiver_port"]
 
         self.on_encoder_data = encoder_data_callback
         self.on_gnss_data = gnss_data_callback

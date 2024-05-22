@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 
-from data_formats.all_data import all_data
+from data_formats.all_data import all_data_for_robot
 from data_formats.temp_hum_data import TempHumData
 from data_formats.gnss_data import GNSSData
 from data_formats.encoder_data import EngineEncoderData
@@ -28,7 +28,7 @@ app.add_middleware(
 @app.get(config['lidar_data_router'])
 async def lidar_data_get():
     processed_vals = []
-    for data in all_data.lidar_data:
+    for data in all_data_for_robot.lidar_data:
         processed_vals.append(data[1:])
 
     def data_sort_key(val):
@@ -39,30 +39,30 @@ async def lidar_data_get():
 
 @app.get(config['depth_cam_data_router'])
 async def depth_cam_data():
-    if all_data.depth_cam_data is not None and all_data.depth_cam_data.all():
-        return json.dumps(all_data.depth_cam_data.tolist())
+    if all_data_for_robot.depth_cam_data is not None and all_data_for_robot.depth_cam_data.all():
+        return json.dumps(all_data_for_robot.depth_cam_data.tolist())
     else:
         return {}
 
 @app.get(config['rgb_cam_data_router'])
 async def rgb_cam_data():
-    if all_data.rgb_cam_data is not None and all_data.rgb_cam_data.all():
-        return json.dumps(all_data.rgb_cam_data.tolist())
+    if all_data_for_robot.rgb_cam_data is not None and all_data_for_robot.rgb_cam_data.all():
+        return json.dumps(all_data_for_robot.rgb_cam_data.tolist())
 
 
 @app.get(config['temp_hum_data_router'])
 async def temp_and_hum_data() -> TempHumData:
-    return TempHumData.parse_raw(all_data.temp_hum_data)
+    return TempHumData.parse_raw(all_data_for_robot.temp_hum_data)
 
 
 @app.get(config['gnss_data_router'])
 async def gnss_data() -> GNSSData:
-    return GNSSData.parse_raw(all_data.gnss_data)
+    return GNSSData.parse_raw(all_data_for_robot.gnss_data)
 
 
 @app.get(config['encoders_data_router'])
 async def encoders_data() -> EngineEncoderData:
-    return EngineEncoderData.parse_raw(all_data.encoder_data)
+    return EngineEncoderData.parse_raw(all_data_for_robot.encoder_data)
 
 
 @app.post(config['command_data_router'])

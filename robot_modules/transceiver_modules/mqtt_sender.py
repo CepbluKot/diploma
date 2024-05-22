@@ -4,7 +4,7 @@ import paho.mqtt.client as mqtt
 
 class MQTTSender:
     def __init__(self, config: dict) -> None:
-        
+
         self.config = config
                 
         address = self.config["robot_address"]
@@ -15,7 +15,8 @@ class MQTTSender:
         self.rgb_cam_topic_pickle = self.config["rgb_cam_topic_pickle_format"]
         self.gnss_topic_str = self.config["gnss_topic_str_format"]
         self.encoder_topic_str = self.config["encoder_topic_str_format"]
-        
+        self.temp_hum_topic_str = self.config["temp_hum_topic_str_format"]
+
         self.client = mqtt.Client()
         self.client.connect(address, port, 60)
         self.client.loop_start()
@@ -35,3 +36,6 @@ class MQTTSender:
 
     def send_encoder_data(self, data: str):
         self.client.publish(payload=data, topic=self.encoder_topic_str)
+
+    def send_temp_hum_data(self, data: str):
+        self.client.publish(payload=data, topic=self.temp_hum_topic_str)

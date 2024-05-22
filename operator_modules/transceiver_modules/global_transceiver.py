@@ -168,7 +168,6 @@ class GlobalTransceiver:
         print("conn mode set")
 
     def send(self, data: str):
-        # print(time.time(),"sent with ", self.sender)
         self.sender.send(data)
 
     def mqtt_receiver_disconnect_action(self,):
