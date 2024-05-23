@@ -4,9 +4,9 @@ from typing import Optional
 
 
 class MoveType(Enum,):
-    forward = "forward"
-    backward = "backward"
-    stop = "stop"
+    forward = "f"
+    backward = "b"
+    stop = "s"
 
 class Direction(pydantic.BaseModel):
     direction: Optional[MoveType] = MoveType.stop
