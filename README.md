@@ -1,4 +1,6 @@
-[Презентация](https://drive.google.com/file/d/1JERFSXeAEsDtELn5uCYsfifsmstXoqhV/view?usp=sharing) 
+[Презентация](https://drive.google.com/file/d/1JERFSXeAEsDtELn5uCYsfifsmstXoqhV/view?usp=sharing) </br>
+[Текст](https://drive.google.com/file/d/10wPHXu9SVHKw2DTHqq66AvC2ev5tR8jF/view?usp=sharing) </br>
+
 
 ## Сборка решения
 Проект работает на ОС Linux Ubuntu 22.04 </br>
