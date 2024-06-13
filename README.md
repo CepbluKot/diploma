@@ -21,6 +21,8 @@ python3 launch_operator_part.py
 python3 launch_robot_part.py
 ```
 
+Сборка ПО для микроконтроллеров выполнялась при помощи https://platformio.org/ </br>
+
 
 ## Графический интерфейс
 ![](https://github.com/CepbluKot/diploma_gui_ok/blob/master/interface.jpeg) </br>
