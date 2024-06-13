@@ -36,4 +36,4 @@ python3 launch_robot_part.py
 ![](https://github.com/CepbluKot/diploma_gui_ok/blob/master/body.jpg) </br>
 
 ## Команда
-[Игорь Малыш - бекенд](http://t.me/igmalysh) </br>
+[Игорь Малыш](http://t.me/igmalysh) </br>
