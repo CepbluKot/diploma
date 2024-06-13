@@ -27,7 +27,7 @@ python3 launch_robot_part.py
 ## Графический интерфейс
 ![](https://github.com/CepbluKot/diploma_gui_ok/blob/master/interface.jpeg) </br>
 
-## Спектрограмма
+## Спектрограмма передач про помощи LoRa
 ![](https://github.com/CepbluKot/diploma_gui_ok/blob/master/spectrogram.jpeg) </br>
 
 ## Конструкция
