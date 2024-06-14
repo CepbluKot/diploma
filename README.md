@@ -31,9 +31,9 @@ sudo apt install python3.8
 
 Запуск:
 ```
-pip3 install -r requirements.txt
-python3 launch_operator_part.py
-python3 launch_robot_part.py
+python3.8 -m pip install -r requirements.txt
+python3.8 launch_operator_part.py
+python3.8 launch_robot_part.py
 ```
 
 Сборка ПО для микроконтроллеров выполнялась при помощи https://platformio.org/ </br>
