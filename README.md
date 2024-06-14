@@ -5,7 +5,7 @@
 [Отчет](https://drive.google.com/file/d/10wPHXu9SVHKw2DTHqq66AvC2ev5tR8jF/view?usp=sharing) </br>
 
 
-## Состав решения
+## Состав ПО решения
 mcu_modules - ПО, запускаемое на аппаратном обеспечении на микроконтролерах ATmega328P</br>
 operator_modules - ПО, запускаемое на стороне оператора</br>
 robot_modules - ПО, запускаемое на стороне робота</br>
