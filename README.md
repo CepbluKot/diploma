@@ -27,14 +27,13 @@ python3 launch_robot_part.py
 Для сборки ПО для микроконтроллеров применяются библиотеки: https://github.com/xreef/EByte_LoRa_E220_Series_Library, https://github.com/adafruit/DHT-sensor-library, https://github.com/GyverLibs/GSON </br>
 
 ## Графический интерфейс
-Вкладка управления и визуализация данных с сенсоров
+Вкладка управления и визуализация данных с сенсоров </br>
 ![](https://github.com/CepbluKot/diploma_gui_ok/blob/master/interface.jpeg) </br>
 
-Вкладка выбора типа подключения и отображения состояния подключений
+Вкладка выбора типа подключения и отображения состояния подключений </br>
 ![](https://github.com/CepbluKot/diploma/blob/master/conn_interface.jpeg) </br>
 
-
-API для взаимодействия с роботом
+API для взаимодействия с роботом </br>
 ![](https://github.com/CepbluKot/diploma_gui_ok/blob/master/api.jpeg) </br>
 
 ## Спектрограмма передач при помощи LoRa
