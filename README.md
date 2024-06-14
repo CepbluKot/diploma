@@ -33,7 +33,7 @@ python3 launch_robot_part.py
 Вкладка выбора типа подключения и отображения состояния подключений </br>
 ![](https://github.com/CepbluKot/diploma/blob/master/conn_interface.jpeg) </br>
 
-API для взаимодействия с роботом </br>
+## API для взаимодействия с роботом 
 ![](https://github.com/CepbluKot/diploma_gui_ok/blob/master/api.jpeg) </br>
 
 ## Спектрограмма передач при помощи LoRa
