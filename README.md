@@ -12,7 +12,7 @@ sudo apt update
 sudo apt install python3.8
 ```
 
-Для корректной работы проекта требуется подключение внешних модулей</br>
+Для корректной работы проекта требуется подключение модулей аппаратного обеспечения</br>
 
 Перед сборкой необходимо установить libfreenect (собирать под python 3.8): https://github.com/alwynmathew/libfreenect-with-python </br>
 
