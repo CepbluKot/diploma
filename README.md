@@ -37,7 +37,10 @@ python3.8 launch_robot_part.py
 ```
 
 Сборка ПО для микроконтроллеров выполнялась при помощи https://platformio.org/ </br>
-Для сборки ПО для микроконтроллеров применяются библиотеки: https://github.com/xreef/EByte_LoRa_E220_Series_Library, https://github.com/adafruit/DHT-sensor-library, https://github.com/GyverLibs/GSON </br>
+Для сборки ПО для микроконтроллеров применяются библиотеки:  </br>
+https://github.com/xreef/EByte_LoRa_E220_Series_Library, </br> 
+https://github.com/adafruit/DHT-sensor-library, </br> 
+https://github.com/GyverLibs/GSON </br>
 
 ## Графический интерфейс
 Вкладка управления и визуализация данных с сенсоров </br>
