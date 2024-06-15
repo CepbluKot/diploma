@@ -51,6 +51,10 @@ https://github.com/GyverLibs/GSON </br>
 
 ![](https://github.com/CepbluKot/diploma/blob/master/robot_part.png) </br>
 
+## UML диаграмма прецедентов
+
+![](https://github.com/CepbluKot/diploma/blob/master/precedent_diagram.png) </br>
+
 ## Графический интерфейс
 Вкладка управления и визуализация данных с сенсоров </br>
 ![](https://github.com/CepbluKot/diploma_gui_ok/blob/master/interface.jpeg) </br>
