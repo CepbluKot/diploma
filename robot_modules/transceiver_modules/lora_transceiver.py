@@ -15,7 +15,6 @@ class LoRaTransceiver:
 
         self.is_lora_connected = True
         self.baudrate = 9600
-        self.serial_interaction_lock = threading.Lock()
 
         self.serial_sender_conn = None
         
@@ -32,17 +31,16 @@ class LoRaTransceiver:
         except Exception:
             pass
 
-        self.read_thr = threading.Thread(target=self.recv_thread, args=(10, ))
+        self.read_thr = threading.Thread(target=self.recv_thread)
         self.read_thr.daemon = True
         self.read_thr.start()
 
     def send(self, data: str):
-        with self.serial_interaction_lock:
-            if self.serial_sender_conn:
-                while self.serial_sender_conn.in_waiting:
-                    self.serial_sender_conn.read_until(b"\r\n")
-                
-                self.serial_sender_conn.write(data.encode()+b"\r")
+        if self.serial_sender_conn:
+            while self.serial_sender_conn.in_waiting:
+                self.serial_sender_conn.read_until(b"\r\n")
+            
+            self.serial_sender_conn.write(data.encode()+b"\r")
 
     def on_recv(self, data:str):
         try:
@@ -56,15 +54,14 @@ class LoRaTransceiver:
 
     def recv_thread(self):
         while self.serial_receiver_conn and self.serial_receiver_conn.is_open:
-            with self.serial_interaction_lock:
-                if self.serial_receiver_conn.in_waiting:
-                    read_data = self.serial_receiver_conn.read_until(b"\r\n")
-                    read_data = read_data[:-2].decode()
-                    
-                    # while self.serial_receiver_conn.in_waiting:
-                    #     pass
-                    
-                    self.on_recv(read_data)
+            if self.serial_receiver_conn.in_waiting:
+                read_data = self.serial_receiver_conn.read_until(b"\r\n")
+                read_data = read_data[:-2].decode()
+                
+                # while self.serial_receiver_conn.in_waiting:
+                #     pass
+                
+                self.on_recv(read_data)
         
 if __name__=="__main__":
     def nothin(rofl=None):

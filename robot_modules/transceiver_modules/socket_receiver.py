@@ -17,7 +17,10 @@ class SocketReceiver:
         self.s.bind((address, port))
 
         self.connect()
-        self.server_job()
+
+        job_thr = threading.Thread(target=self.server_job)
+        job_thr.daemon = True
+        job_thr.start()
         
 
     def connect(self):

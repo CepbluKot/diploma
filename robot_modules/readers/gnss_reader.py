@@ -23,11 +23,11 @@ class GNSSReader:
 
         self.global_gnss_data = GNSSData()
 
-        self.read_thr = threading.Thread(target=self.recv_job, args=(10, ))
+        self.read_thr = threading.Thread(target=self.recv_thr, )
         self.read_thr.daemon = True
         self.read_thr.start()
 
-    def recv_job(self):
+    def recv_thr(self):
         while self.serial_gnss_conn and self.serial_gnss_conn.is_open and self.read_thr.is_alive():
             parsed = pynmea2.parse(self.serial_gnss_conn.readline().decode("utf-8"))
             

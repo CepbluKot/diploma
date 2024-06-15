@@ -9,7 +9,7 @@ class KinectDataReader:
         
         self.DEPTH_CAM_IND = 0
 
-        self.read_thr = threading.Thread(target=self.recv_job, args=(10, ))
+        self.read_thr = threading.Thread(target=self.recv_job,)
         self.read_thr.daemon = True
         self.read_thr.start()
     

@@ -15,8 +15,15 @@ class AllReaders():
                  on_temp_hum_data,
                  config: dict) -> None:
         
-        EncoderReader(on_encoder_data, config)
-        GNSSReader(on_gnss_data, config)
-        KinectDataReader(on_depth_cam_data, on_rgb_cam_data)
-        LidarDataReader(on_lidar_data, config)
-        TempHumReader(on_temp_hum_data, config)
+        self.on_encoder_data = on_encoder_data  
+        self.on_gnss_data = on_gnss_data
+        self.on_depth_cam_data = on_depth_cam_data
+        self.on_rgb_cam_data = on_rgb_cam_data
+        self.on_lidar_data = on_lidar_data
+        self.on_temp_hum_data = on_temp_hum_data
+
+        self.encoder_reader = EncoderReader(on_encoder_data, config)
+        self.gnss_reader = GNSSReader(on_gnss_data, config)
+        self.kinect_data_reader = KinectDataReader(on_depth_cam_data, on_rgb_cam_data)
+        self.lidar_data_reader = LidarDataReader(on_lidar_data, config)
+        self.temp_hum_reader = TempHumReader(on_temp_hum_data, config)

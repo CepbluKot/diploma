@@ -9,7 +9,7 @@ class LidarDataReader:
         self.LIDAR_PORT_NAME = config['lidar_serial_port']
         self.lidar = RPLidar(self.LIDAR_PORT_NAME)
 
-        self.read_thr = threading.Thread(target=self.recv_job, args=(10, ))
+        self.read_thr = threading.Thread(target=self.recv_job,)
         self.read_thr.daemon = True
         self.read_thr.start()
     

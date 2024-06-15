@@ -18,7 +18,7 @@ class EncoderReader:
         except Exception:
             pass
 
-        self.read_thr = threading.Thread(target=self.recv_thr, args=(10, ))
+        self.read_thr = threading.Thread(target=self.recv_thr, )
         self.read_thr.daemon = True
         self.read_thr.start()
 

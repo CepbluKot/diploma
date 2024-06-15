@@ -63,10 +63,3 @@ class SocketSender:
         reconnect_thr = threading.Thread(target=reconnect_procedure)
         reconnect_thr.daemon = True
         reconnect_thr.start()
-
-if __name__=="__main__":
-    n = SocketSender()
-    while 1:
-        time.sleep(2)
-        n.send("wewreg")
-        # print("riidn high")

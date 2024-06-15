@@ -108,9 +108,3 @@ class MQTTReceiver:
         reconnect_thr = threading.Thread(target=reconnect_procedure)
         reconnect_thr.daemon = True
         reconnect_thr.start()
-
-
-# def do_nothing():
-#     pass
-
-# n = MQTTReceiver(do_nothing,do_nothing,do_nothing,do_nothing,do_nothing)

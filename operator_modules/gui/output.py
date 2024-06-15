@@ -41,7 +41,7 @@ def open_map_window():
     update_thr.daemon = True
     update_thr.start()
 
-def init_gui():
+def init():
     window = Tk()
     window.title("Robot control app")
     window.geometry("1500x500")

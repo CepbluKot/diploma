@@ -30,7 +30,6 @@ class LoRaTransceiver:
 
         self.is_lora_connected = True
         self.baudrate = 9600
-        self.serial_interaction_lock = threading.Lock()
 
         self.serial_sender_conn = None
 
@@ -53,12 +52,11 @@ class LoRaTransceiver:
 
 
     def send(self, data: str):
-        with self.serial_interaction_lock:
-            if self.serial_sender_conn:
-                while self.serial_sender_conn.in_waiting:
-                    self.serial_sender_conn.read_until(b"\r\n")
-                
-                self.serial_sender_conn.write(data.encode()+b"\r")
+        if self.serial_sender_conn:
+            while self.serial_sender_conn.in_waiting:
+                self.serial_sender_conn.read_until(b"\r\n")
+            
+            self.serial_sender_conn.write(data.encode()+b"\r")
 
 
     def on_connect(self,):
@@ -89,36 +87,35 @@ class LoRaTransceiver:
     def recv_thread(self, conn_timeout: int):
         start_wait_time = time.time()
         while self.serial_receiver_conn and self.serial_receiver_conn.is_open:
-            with self.serial_interaction_lock:
-                if self.serial_receiver_conn.in_waiting:
-                    read_data = self.serial_receiver_conn.read_until(b"\r\n")
-                    read_data = read_data[:-2].decode()
+            if self.serial_receiver_conn.in_waiting:
+                read_data = self.serial_receiver_conn.read_until(b"\r\n")
+                read_data = read_data[:-2].decode()
+                
+                # while self.serial_receiver_conn.in_waiting:
+                #     pass
+                
+                start_wait_time = time.time()
+                self.on_recv(read_data)
+                self.on_connect()
+                
+            else:
+                if self.is_lora_connected and abs(time.time() - start_wait_time) >= conn_timeout:
                     
-                    # while self.serial_receiver_conn.in_waiting:
-                    #     pass
+                    self.is_lora_connected = False
+                    self.on_lora_disconnect_action()
                     
-                    start_wait_time = time.time()
-                    self.on_recv(read_data)
-                    self.on_connect()
-                   
-                else:
-                    if self.is_lora_connected and abs(time.time() - start_wait_time) >= conn_timeout:
-                       
-                        self.is_lora_connected = False
-                        self.on_lora_disconnect_action()
+                    while not self.is_lora_connected:
+                        try:
+                            if self.serial_receiver_conn and \
+                                self.serial_receiver_conn.in_waiting:
+                                
+                                self.on_connect()
+
+                        except Exception as e:
+                            pass
                         
-                        while not self.is_lora_connected:
-                            try:
-                                if self.serial_receiver_conn and \
-                                   self.serial_receiver_conn.in_waiting:
-                                   
-                                    self.on_connect()
 
-                            except Exception as e:
-                                pass
-                            
-
-                        start_wait_time = time.time()
+                    start_wait_time = time.time()
 
     def on_lora_disconnected(self):
         self.is_lora_connected = False
