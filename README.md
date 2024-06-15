@@ -42,6 +42,15 @@ https://github.com/xreef/EByte_LoRa_E220_Series_Library, </br>
 https://github.com/adafruit/DHT-sensor-library, </br> 
 https://github.com/GyverLibs/GSON </br>
 
+## UML диаграмма классов ПО оператора
+
+![](https://github.com/CepbluKot/diploma/blob/master/operator_part.png) </br>
+
+
+## UML диаграмма классов ПО робота
+
+![](https://github.com/CepbluKot/diploma/blob/master/robot_part.png) </br>
+
 ## Графический интерфейс
 Вкладка управления и визуализация данных с сенсоров </br>
 ![](https://github.com/CepbluKot/diploma_gui_ok/blob/master/interface.jpeg) </br>
