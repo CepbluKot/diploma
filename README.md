@@ -2,7 +2,7 @@
 
 
 [Презентация](https://drive.google.com/file/d/1JERFSXeAEsDtELn5uCYsfifsmstXoqhV/view?usp=sharing) </br>
-[Отчет](https://drive.google.com/file/d/1NQcRedrsgYKY2Ws6lm7PMl_9BWWHV_Tv/view?usp=sharing) </br>
+[Отчет](https://drive.google.com/file/d/1sOgjlZTulrf-12KM_xHtwUruooojngDX/view?usp=sharing) </br>
 
 
 ## Состав ПО решения
