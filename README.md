@@ -1,8 +1,8 @@
 ## ВКР на тему "Разработка мобильного робота для выполнения логистических операций"
 
 
-[Презентация](https://drive.google.com/file/d/1JERFSXeAEsDtELn5uCYsfifsmstXoqhV/view?usp=sharing) </br>
-[Отчет](https://drive.google.com/file/d/1NQcRedrsgYKY2Ws6lm7PMl_9BWWHV_Tv/view?usp=sharing) </br>
+[Презентация](https://github.com/CepbluKot/diploma/blob/master/%D0%9F%D1%80%D0%B5%D0%B7%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D0%B8%D1%8F.pdf) </br>
+[Отчет](https://github.com/CepbluKot/diploma/blob/master/%D0%9E%D1%82%D1%87%D0%B5%D1%82.pdf) </br>
 
 
 ## Состав ПО решения
